@@ -15,7 +15,7 @@ import sys
 if sys.version_info < (3, 4):
     raise 'must use Python version 3.4 or higher'
 
-readme = """A tool to describe symmetry operations and their representation."""
+readme = """Utilities for creating, comparing and plotting bandstructures of materials."""
 
 with open('./bandstructure_utils/_version.py', 'r') as f:
     match_expr = "__version__[^'" + '"]+([' + "'" + r'"])([^\1]+)\1'
@@ -27,9 +27,8 @@ setup(
     url='http://z2pack.ethz.ch/bandstructure-utils',
     author='Dominik Gresch',
     author_email='greschd@gmx.ch',
-    description='Provides an interface to describe symmetry representations.',
+    description=readme,
     install_requires=['numpy', 'fsc.export', 'h5py'],
-    long_description=readme,
     classifiers=[
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Natural Language :: English',

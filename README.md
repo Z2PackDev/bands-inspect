@@ -1,4 +1,4 @@
-A simple tool to describe symmetry operations and their representations.
+Utilities for creating, comparing and plotting bandstructures of materials.
 
 Documentation: http://z2pack.ethz.ch/bandstructure-utils
 
