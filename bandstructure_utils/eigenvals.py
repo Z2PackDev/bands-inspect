@@ -34,10 +34,10 @@ class EigenvalsData(Serializable, namedtuple('EigenvalsBase', ['kpoints', 'eigen
     @classmethod
     def from_eigenval_function(cls, *, kpoints, eigenval_function, listable=False):
         if listable:
-            eigenval = eigenval_function(kpoints.kpoints_explicit)
+            eigenvals = eigenval_function(kpoints.kpoints_explicit)
         else:
-            eigenval = [eigenval_function(k) for k in kpoints.kpoints_explicit]
-        return cls(kpoints=kpoints, eigenval=eigenval)
+            eigenvals = [eigenval_function(k) for k in kpoints.kpoints_explicit]
+        return cls(kpoints=kpoints, eigenvals=eigenvals)
 
     def to_hdf5(self, hdf5_handle):
         hdf5_handle.create_group('kpoints_obj')
