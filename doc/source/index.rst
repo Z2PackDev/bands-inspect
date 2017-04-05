@@ -1,9 +1,9 @@
 .. _home:
 
 bandstructure-utils
-=======================
+===================
 
-This is a tool to describe symmetry operations and their representations.
+This is a tool to create, compare and plot bandstructures of materials. The tool is currently in development, meaning that some essential features are still missing. This documentation will continue to be updated as more features become available.
 
 .. contents ::
     :local:
