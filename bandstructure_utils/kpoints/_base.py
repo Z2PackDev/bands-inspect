@@ -8,7 +8,11 @@ from .._serializable import Serializable
 
 from fsc.export import export
 
+@export
 class KpointsBase(Serializable):
+    """
+    Base class for classes defining sets of k-points.
+    """
     @abc.abstractproperty
     def kpoints_explicit(self):
         """

@@ -12,6 +12,12 @@ from . import KpointsBase
 @export
 @subscribe_serialize('kpoints_explicit')
 class KpointsExplicit(KpointsBase):
+    """
+    Defines an explicit set of k-points.
+
+    :param kpoints: List of explicit k-points.
+    :type kpoints: list
+    """
     def __init__(self, kpoints):
         self._kpoints = np.array(kpoints)
         self._kpoints.flags.writeable = False

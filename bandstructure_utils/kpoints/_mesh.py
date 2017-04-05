@@ -16,6 +16,15 @@ from . import KpointsBase
 @subscribe_serialize('kpoints_mesh')
 # Note: namedtuple inheritance breaks the check for abstract methods
 class KpointsMesh(KpointsBase, namedtuple('MeshBase', ['mesh', 'offset'])):
+    """
+    Defines k-points on a regular mesh.
+
+    :param mesh: Defines the grid size (number of different k-point values) for each dimension.
+    :type mesh: list
+
+    :param offset: Offset added to the k-point values. If nothing is given, the grid is aligned at the :math:`\Gamma` - point.
+    :type offset: list
+    """
     def __new__(cls, mesh, offset=None):
         mesh = tuple(int(m) for m in mesh)
         if offset is None:

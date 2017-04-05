@@ -9,8 +9,7 @@ import numpy as np
 from fsc.export import export
 
 from ._serializable import Serializable
-from .kpoints import KpointsExplicit
-from .kpoints.base import KpointsBase
+from .kpoints import KpointsExplicit, KpointsBase
 from .io import from_hdf5
 from .io._serialize_mapping import subscribe_serialize
 
