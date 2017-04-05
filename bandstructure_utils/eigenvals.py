@@ -6,11 +6,18 @@
 from collections import namedtuple
 
 import numpy as np
+from fsc.export import export
 
+from ._serializable import Serializable
 from .kpoints import KpointsExplicit
 from .kpoints.base import KpointsBase
+from .io import from_hdf5
+from .io._serialize_mapping import subscribe_serialize
 
-class EigenvalsData(namedtuple('EigenvalsBase', ['kpoints', 'eigenvals'])):
+@export
+@subscribe_serialize('eigenvals_data')
+# Note: namedtuple inheritance breaks the check for abstract methods
+class EigenvalsData(Serializable, namedtuple('EigenvalsBase', ['kpoints', 'eigenvals'])):
     def __new__(cls, *, kpoints, eigenvals):
         if not isinstance(kpoints, KpointsBase):
             kpoints = KpointsExplicit(kpoints)
@@ -31,3 +38,14 @@ class EigenvalsData(namedtuple('EigenvalsBase', ['kpoints', 'eigenvals'])):
         else:
             eigenval = [eigenval_function(k) for k in kpoints.kpoints_explicit]
         return cls(kpoints=kpoints, eigenval=eigenval)
+
+    def to_hdf5(self, hdf5_handle):
+        hdf5_handle.create_group('kpoints_obj')
+        self.kpoints.to_hdf5(hdf5_handle['kpoints_obj'])
+        hdf5_handle['eigenvals'] = self.eigenvals
+
+    @classmethod
+    def from_hdf5(cls, hdf5_handle):
+        kpoints = from_hdf5(hdf5_handle['kpoints_obj'])
+        eigenvals = hdf5_handle['eigenvals'].value
+        return cls(kpoints=kpoints, eigenvals=eigenvals)

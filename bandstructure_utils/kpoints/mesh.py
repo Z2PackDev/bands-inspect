@@ -9,9 +9,12 @@ from collections import namedtuple
 import numpy as np
 from fsc.export import export
 
-from .base import KpointsBase
+from ..io._serialize_mapping import subscribe_serialize
+from . import KpointsBase
 
 @export
+@subscribe_serialize('kpoints_mesh')
+# Note: namedtuple inheritance breaks the check for abstract methods
 class KpointsMesh(KpointsBase, namedtuple('MeshBase', ['mesh', 'offset'])):
     def __new__(cls, mesh, offset=None):
         mesh = tuple(int(m) for m in mesh)

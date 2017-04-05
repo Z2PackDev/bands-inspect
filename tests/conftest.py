@@ -6,7 +6,11 @@
 # File:    conftest.py
 
 import json
+
 import pytest
+import numpy as np
+
+import bandstructure_utils as bs
 
 #--------------------------FIXTURES-------------------------------------#
 
@@ -37,3 +41,15 @@ def compare_data(request, test_name, scope="session"):
 @pytest.fixture
 def compare_equal(compare_data):
     return lambda data, tag=None: compare_data(lambda x, y: x == y, data, tag)
+
+@pytest.fixture
+def assert_equal():
+    def inner(obj1, obj2):
+        if isinstance(obj1, bs.kpoints.KpointsBase):
+            np.testing.assert_equal(obj1.kpoints_explicit, obj2.kpoints_explicit)
+        elif isinstance(obj1, bs.eigenvals.EigenvalsData):
+            np.testing.assert_equal(obj1.kpoints.kpoints_explicit, obj2.kpoints.kpoints_explicit)
+            np.testing.assert_equal(obj1.eigenvals, obj2.eigenvals)
+        else:
+            raise ValueError("Unknown type {}".format(type(obj1)))
+    return inner

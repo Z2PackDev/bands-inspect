@@ -28,7 +28,7 @@ setup(
     author='Dominik Gresch',
     author_email='greschd@gmx.ch',
     description=readme,
-    install_requires=['numpy', 'fsc.export', 'h5py'],
+    install_requires=['numpy', 'fsc.export', 'h5py', 'decorator'],
     classifiers=[
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Natural Language :: English',

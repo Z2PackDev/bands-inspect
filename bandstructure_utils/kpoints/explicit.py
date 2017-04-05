@@ -6,9 +6,11 @@
 import numpy as np
 from fsc.export import export
 
-from .base import KpointsBase
+from ..io._serialize_mapping import subscribe_serialize
+from . import KpointsBase
 
 @export
+@subscribe_serialize('kpoints_explicit')
 class KpointsExplicit(KpointsBase):
     def __init__(self, kpoints):
         self._kpoints = np.array(kpoints)
