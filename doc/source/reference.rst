@@ -3,15 +3,18 @@
 Reference
 =========
 
-.. automodule:: bandstructure_utils
-    :members:
-    :imported-members:
-
 Defining k-points
 -----------------
 
-
 .. automodule:: bandstructure_utils.kpoints
+    :members:
+    :imported-members:
+    :inherited-members:
+
+Saving and Loading
+------------------
+
+.. automodule:: bandstructure_utils.io
     :members:
     :imported-members:
     :inherited-members:

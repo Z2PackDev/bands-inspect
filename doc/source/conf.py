@@ -42,6 +42,7 @@ extensions = [
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3', None),
     'sympy': ('http://docs.sympy.org/latest', None),
+    'h5py': ('http://docs.h5py.org/en/latest', None),
 }
 
 todo_include_todos = True

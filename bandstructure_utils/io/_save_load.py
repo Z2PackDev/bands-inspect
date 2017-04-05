@@ -12,10 +12,24 @@ __all__ = ['save', 'load']
 
 @export
 def to_hdf5(obj, hdf5_handle):
+    """
+    Serializes a given object to HDF5 format.
+
+    :param obj: Object to serialize.
+
+    :param hdf5_handle: HDF5 location where the serialized object is stored.
+    :type hdf5_handle: :py:class:`h5py.File<File>` or :py:class:`h5py.Group<Group>`.
+    """
     obj.to_hdf5(hdf5_handle)
 
 @export
 def from_hdf5(hdf5_handle):
+    """
+    Deserializes a given object from HDF5 format.
+
+    :param hdf5_handle: HDF5 location where the serialized object is stored.
+    :type hdf5_handle: :py:class:`h5py.File<File>` or :py:class:`h5py.Group<Group>`.
+    """
     type_tag = hdf5_handle['type_tag'].value
     return SERIALIZE_MAPPING[type_tag].from_hdf5(hdf5_handle)
 
