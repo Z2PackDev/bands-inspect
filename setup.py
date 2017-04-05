@@ -6,10 +6,7 @@
 # File:    setup.py
 
 import re
-try:
-    from setuptools import setup
-except:
-    from distutils.core import setup
+from setuptools import setup, find_packages
 
 import sys
 if sys.version_info < (3, 4):
@@ -42,5 +39,5 @@ setup(
         'Development Status :: 4 - Beta'
     ],
     license='GPL',
-    packages=['bandstructure_utils']
+    packages=['bandstructure_utils', 'bandstructure_utils.kpoints', 'bandstructure_utils.io']
 )
