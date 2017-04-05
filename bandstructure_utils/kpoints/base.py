@@ -6,9 +6,9 @@
 import abc
 import h5py
 
-class KpointSet(abc.ABC):
+class KpointsBase(abc.ABC):
     @abc.abstractproperty
-    def explicit_kpoints(self):
+    def kpoints_explicit(self):
         """
         Array containing all k-points explicitly.
         """

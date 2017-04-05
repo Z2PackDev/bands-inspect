@@ -6,15 +6,16 @@
 import numpy as np
 from fsc.export import export
 
-from .base import KpointSet
+from .base import KpointsBase
 
 @export
-class ExplicitKpoints(KpointSet):
+class KpointsExplicit(KpointsBase):
     def __init__(self, kpoints):
         self._kpoints = np.array(kpoints)
+        self._kpoints.flags.writeable = False
 
     @property
-    def explicit_kpoints(self):
+    def kpoints_explicit(self):
         return self._kpoints
 
     def to_hdf5(self, hdf5_handle):
