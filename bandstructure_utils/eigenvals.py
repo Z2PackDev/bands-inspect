@@ -17,6 +17,15 @@ from .io._serialize_mapping import subscribe_serialize
 @subscribe_serialize('eigenvals_data')
 # Note: namedtuple inheritance breaks the check for abstract methods
 class EigenvalsData(Serializable, namedtuple('EigenvalsBase', ['kpoints', 'eigenvals'])):
+    """
+    Data container for the eigenvalues at a given set of k-points.
+
+    :param kpoints: List of k-points where the eigenvalues are given.
+    :type kpoints: list
+
+    :param eigenvals: Eigenvalues at each k-point. The outer axis corresponds to the different k-points, and the inner axis corresponds to the different eigenvalues at a given k-point.
+    :type eigenvals: list(list(float))
+    """
     def __new__(cls, *, kpoints, eigenvals):
         if not isinstance(kpoints, KpointsBase):
             kpoints = KpointsExplicit(kpoints)
@@ -32,6 +41,17 @@ class EigenvalsData(Serializable, namedtuple('EigenvalsBase', ['kpoints', 'eigen
 
     @classmethod
     def from_eigenval_function(cls, *, kpoints, eigenval_function, listable=False):
+        """
+        Create an instance using a function that calculates the eigenvalues.
+
+        :param kpoints: k-points for which the eigenvalues are to be calculated.
+        :type kpoints: KpointsBase
+
+        :param eigenval_function: Function which calculates the eigenvalues.
+
+        :param listable: Flag showing whether the function can handle a list of k-points (``True``) or only single k-points (``False``).
+        :type listable: bool
+        """
         if listable:
             eigenvals = eigenval_function(kpoints.kpoints_explicit)
         else:

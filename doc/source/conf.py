@@ -45,6 +45,8 @@ intersphinx_mapping = {
     'h5py': ('http://docs.h5py.org/en/latest', None),
 }
 
+nitpick_ignore = [('py:obj', '')]
+
 todo_include_todos = True
 
 # Add any paths that contain templates here, relative to this directory.
