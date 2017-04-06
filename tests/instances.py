@@ -3,8 +3,8 @@
 #
 # Author:  Dominik Gresch <greschd@gmx.ch>
 
+import bandstructure_utils as bs
 from bandstructure_utils.kpoints import *
-from bandstructure_utils.eigenvals import *
 
 KPOINTS_INSTANCES = [
     KpointsExplicit([[0.1, 0.5, 0.2], [0.9, 0.3, 0.5]]),
@@ -13,7 +13,7 @@ KPOINTS_INSTANCES = [
 ]
 
 EIGENVALS_INSTANCES = [
-    EigenvalsData(
+    bs.EigenvalsData(
         kpoints=[[0.1, 0.2, 0.3], [0.5, 0.1, 0.3]],
         eigenvals=[[-0.2, 0.3, 0.4, 5], [-0.5, -0.7, 1, 9]]
     )
