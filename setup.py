@@ -39,5 +39,5 @@ setup(
         'Development Status :: 4 - Beta'
     ],
     license='GPL',
-    packages=['bandstructure_utils', 'bandstructure_utils.kpoints', 'bandstructure_utils.io']
+    packages=['bandstructure_utils', 'bandstructure_utils.kpoints', 'bandstructure_utils.io', 'bandstructure_utils.compare']
 )
