@@ -18,7 +18,7 @@ from .io._serialize_mapping import subscribe_serialize
 # Note: namedtuple inheritance breaks the check for abstract methods
 class EigenvalsData(Serializable, namedtuple('EigenvalsBase', ['kpoints', 'eigenvals'])):
     """
-    Data container for the eigenvalues at a given set of k-points.
+    Data container for the eigenvalues at a given set of k-points. The eigenvalues are automatically sorted by value.
 
     :param kpoints: List of k-points where the eigenvalues are given.
     :type kpoints: list
@@ -30,7 +30,7 @@ class EigenvalsData(Serializable, namedtuple('EigenvalsBase', ['kpoints', 'eigen
         if not isinstance(kpoints, KpointsBase):
             kpoints = KpointsExplicit(kpoints)
 
-        eigenvals = np.array(eigenvals)
+        eigenvals = np.sort(eigenvals)
         if len(kpoints.kpoints_explicit) != len(eigenvals):
             raise ValueError(
                 "Number of kpoints ({}) does not match the number of eigenvalue lists ({})".format(
@@ -38,6 +38,16 @@ class EigenvalsData(Serializable, namedtuple('EigenvalsBase', ['kpoints', 'eigen
                 )
             )
         return super().__new__(cls, kpoints, eigenvals)
+
+    def slice_bands(self, band_idx):
+        """
+        Returns a new instance which contains only the bands given in the index.
+
+        :param band_idx: Indices for the bands in the new instance.
+        :type band_idx: list
+        """
+        new_eigenvals = self.eigenvals.T[sorted(band_idx)].T
+        return type(self)(kpoints=self.kpoints, eigenvals=new_eigenvals)
 
     @classmethod
     def from_eigenval_function(cls, *, kpoints, eigenval_function, listable=False):

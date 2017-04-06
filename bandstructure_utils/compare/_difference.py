@@ -8,12 +8,23 @@ import numpy as np
 def difference(
         eigenvals1, eigenvals2,
         *,
-        avg_per_band=np.average,
-        avg_all_bands=np.average,
-        weight_energy=None,
-        weight_band=None,
-        weight_kpoint=None
+        avg_func=np.average,
+        weight_eigenval=np.ones_like,
+        weight_kpoint=lambda kpts: np.ones(np.array([*kpts]).shape[0])
     ):
-    for (k1, e1), (k2, e2) in zip(zip(*eigenvals1), zip(*eigenvals2)):
-        print(k1, k2)
-        print(e1, e2)
+
+    kpoints = np.array([*eigenvals1.kpoints])
+    if not np.allclose(kpoints, np.array([*eigenvals2.kpoints])):
+        raise ValueError('The k-points of the two sets of eigenvalues do not match.')
+    kpoint_weights = weight_kpoint(kpoints)
+    eigenval_weights = np.mean(
+        [
+            weight_eigenval(eigenvals1.eigenvals),
+            weight_eigenval(eigenvals2.eigenvals)
+        ],
+        axis=0
+    )
+
+    weights = (eigenval_weights.T * kpoint_weights).T
+    diff = np.abs(eigenvals1.eigenvals - eigenvals2.eigenvals)
+    return avg_func(diff, weights=weights)
