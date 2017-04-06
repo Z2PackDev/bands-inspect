@@ -3,4 +3,4 @@
 #
 # Author:  Dominik Gresch <greschd@gmx.ch>
 
-from ._difference import difference
+from ._difference import *

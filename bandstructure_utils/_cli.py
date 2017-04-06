@@ -23,3 +23,14 @@ def difference(ctx, eigenval_files):
     ctx.obj = ev1, ev2
     if ctx.invoked_subcommand is None:
         click.echo(compare.difference(ev1, ev2))
+
+@difference.command()
+@click.argument(
+    'energy_window',
+    nargs=2,
+    type=float
+)
+@click.pass_context
+def energy_window(ctx, energy_window):
+    ev1, ev2 = ctx.obj
+    click.echo(compare.difference_energy_window(ev1, ev2, energy_window=energy_window))
