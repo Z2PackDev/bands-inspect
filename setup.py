@@ -25,7 +25,7 @@ setup(
     author='Dominik Gresch',
     author_email='greschd@gmx.ch',
     description=readme,
-    install_requires=['numpy', 'fsc.export', 'h5py', 'decorator'],
+    install_requires=['numpy', 'h5py', 'click', 'decorator', 'fsc.export'],
     classifiers=[
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Natural Language :: English',
@@ -38,6 +38,10 @@ setup(
         'Topic :: Scientific/Engineering :: Physics',
         'Development Status :: 3 - Alpha'
     ],
+    entry_points='''
+        [console_scripts]
+        bandstructure_utils=bandstructure_utils._cli:cli
+    ''',
     license='GPL',
     packages=['bandstructure_utils', 'bandstructure_utils.kpoints', 'bandstructure_utils.io', 'bandstructure_utils.compare']
 )
