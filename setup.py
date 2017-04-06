@@ -36,7 +36,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Intended Audience :: Science/Research',
         'Topic :: Scientific/Engineering :: Physics',
-        'Development Status :: 4 - Beta'
+        'Development Status :: 3 - Alpha'
     ],
     license='GPL',
     packages=['bandstructure_utils', 'bandstructure_utils.kpoints', 'bandstructure_utils.io', 'bandstructure_utils.compare']
