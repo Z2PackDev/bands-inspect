@@ -22,3 +22,6 @@ class KpointsBase(Serializable):
 
     def __iter__(self):
         return iter(self.kpoints_explicit)
+
+    def __array__(self):
+        return self.kpoints_explicit

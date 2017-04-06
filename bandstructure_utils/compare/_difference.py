@@ -10,11 +10,11 @@ def difference(
         *,
         avg_func=np.average,
         weight_eigenval=np.ones_like,
-        weight_kpoint=lambda kpts: np.ones(np.array([*kpts]).shape[0])
+        weight_kpoint=lambda kpts: np.ones(np.array(kpts).shape[0])
     ):
 
-    kpoints = np.array([*eigenvals1.kpoints])
-    if not np.allclose(kpoints, np.array([*eigenvals2.kpoints])):
+    kpoints = np.array(eigenvals1.kpoints)
+    if not np.allclose(kpoints, np.array(eigenvals2.kpoints)):
         raise ValueError('The k-points of the two sets of eigenvalues do not match.')
     kpoint_weights = weight_kpoint(kpoints)
     eigenval_weights = np.mean(
