@@ -3,6 +3,9 @@
 *.pyo
 *__pycache__*
 
+# scratch test file
+test.py
+
 # hidden files garbage
 *~
 .fuse*

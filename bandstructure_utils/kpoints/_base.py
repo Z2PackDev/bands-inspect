@@ -19,3 +19,6 @@ class KpointsBase(Serializable):
         Array containing all k-points explicitly.
         """
         pass
+
+    def __iter__(self):
+        return iter(self.kpoints_explicit)
