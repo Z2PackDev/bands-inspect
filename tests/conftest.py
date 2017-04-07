@@ -5,12 +5,15 @@
 # Date:    18.02.2016 18:07:11 MST
 # File:    conftest.py
 
+import os
 import json
 
 import pytest
 import numpy as np
 
 import bandstructure_utils as bs
+
+import parameters
 
 #--------------------------FIXTURES-------------------------------------#
 
@@ -52,4 +55,10 @@ def assert_equal():
             np.testing.assert_equal(obj1.eigenvals, obj2.eigenvals)
         else:
             raise ValueError("Unknown type {}".format(type(obj1)))
+    return inner
+
+@pytest.fixture
+def sample():
+    def inner(name):
+        return os.path.join(parameters.SAMPLES_DIR, name)
     return inner

@@ -3,6 +3,8 @@
 #
 # Author:  Dominik Gresch <greschd@gmx.ch>
 
+import types
+
 import numpy as np
 from fsc.export import export
 
@@ -13,7 +15,7 @@ from .io._serialize_mapping import subscribe_serialize
 
 @export
 @subscribe_serialize('eigenvals_data')
-class EigenvalsData(Serializable):
+class EigenvalsData(Serializable, types.SimpleNamespace):
     """
     Data container for the eigenvalues at a given set of k-points. The eigenvalues are automatically sorted by value.
 
@@ -36,9 +38,6 @@ class EigenvalsData(Serializable):
             )
         self.kpoints = kpoints
         self.eigenvals = eigenvals
-
-    def __repr__(self):
-        return 'EigenvalsData(kpoins={}, eigenvals={})'.format(self.kpoints, self.eigenvals)
 
     def slice_bands(self, band_idx):
         """

@@ -3,6 +3,7 @@
 #
 # Author:  Dominik Gresch <greschd@gmx.ch>
 
+import types
 import itertools
 
 import numpy as np
@@ -13,7 +14,7 @@ from . import KpointsBase
 
 @export
 @subscribe_serialize('kpoints_mesh')
-class KpointsMesh(KpointsBase):
+class KpointsMesh(KpointsBase, types.SimpleNamespace):
     """
     Defines k-points on a regular mesh.
 
@@ -38,9 +39,6 @@ class KpointsMesh(KpointsBase):
             )
         self.mesh = mesh
         self.offset = offset
-
-    def __repr__(self):
-        return 'KpointsMesh(mesh={}, offset={})'.format(self.mesh, self.offset)
 
     @property
     def kpoints_explicit(self):
