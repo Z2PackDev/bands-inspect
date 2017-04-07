@@ -19,15 +19,14 @@ class KpointsExplicit(KpointsBase):
     :type kpoints: list
     """
     def __init__(self, kpoints):
-        self._kpoints = np.array(kpoints)
-        self._kpoints.flags.writeable = False
+        self.kpoints = np.array(kpoints)
 
     @property
     def kpoints_explicit(self):
-        return self._kpoints
+        return self.kpoints
 
     def to_hdf5(self, hdf5_handle):
-        hdf5_handle['kpoints'] = self._kpoints
+        hdf5_handle['kpoints'] = self.kpoints
 
     @classmethod
     def from_hdf5(cls, hdf5_handle):

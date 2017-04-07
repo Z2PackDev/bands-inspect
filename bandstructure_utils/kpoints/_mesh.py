@@ -4,7 +4,6 @@
 # Author:  Dominik Gresch <greschd@gmx.ch>
 
 import itertools
-from collections import namedtuple
 
 import numpy as np
 from fsc.export import export
@@ -14,8 +13,7 @@ from . import KpointsBase
 
 @export
 @subscribe_serialize('kpoints_mesh')
-# Note: namedtuple inheritance breaks the check for abstract methods
-class KpointsMesh(KpointsBase, namedtuple('MeshBase', ['mesh', 'offset'])):
+class KpointsMesh(KpointsBase):
     """
     Defines k-points on a regular mesh.
 
@@ -25,7 +23,7 @@ class KpointsMesh(KpointsBase, namedtuple('MeshBase', ['mesh', 'offset'])):
     :param offset: Offset added to the k-point values. If nothing is given, the grid is aligned at the :math:`\Gamma` - point.
     :type offset: list
     """
-    def __new__(cls, mesh, offset=None):
+    def __init__(self, mesh, offset=None):
         mesh = tuple(int(m) for m in mesh)
         if offset is None:
             offset = np.zeros_like(mesh)
@@ -38,11 +36,11 @@ class KpointsMesh(KpointsBase, namedtuple('MeshBase', ['mesh', 'offset'])):
                     len(offset), len(mesh)
                 )
             )
-        return super().__new__(
-            cls,
-            mesh=mesh,
-            offset=offset
-        )
+        self.mesh = mesh
+        self.offset = offset
+
+    def __repr__(self):
+        return 'KpointsMesh(mesh={}, offset={})'.format(self.mesh, self.offset)
 
     @property
     def kpoints_explicit(self):

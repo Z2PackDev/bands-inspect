@@ -3,8 +3,6 @@
 #
 # Author:  Dominik Gresch <greschd@gmx.ch>
 
-from collections import namedtuple
-
 import numpy as np
 from fsc.export import export
 
@@ -15,8 +13,7 @@ from .io._serialize_mapping import subscribe_serialize
 
 @export
 @subscribe_serialize('eigenvals_data')
-# Note: namedtuple inheritance breaks the check for abstract methods
-class EigenvalsData(Serializable, namedtuple('EigenvalsBase', ['kpoints', 'eigenvals'])):
+class EigenvalsData(Serializable):
     """
     Data container for the eigenvalues at a given set of k-points. The eigenvalues are automatically sorted by value.
 
@@ -24,9 +21,9 @@ class EigenvalsData(Serializable, namedtuple('EigenvalsBase', ['kpoints', 'eigen
     :type kpoints: list
 
     :param eigenvals: Eigenvalues at each k-point. The outer axis corresponds to the different k-points, and the inner axis corresponds to the different eigenvalues at a given k-point.
-    :type eigenvals: list(list(float))
+    :type eigenvals: 2D array
     """
-    def __new__(cls, *, kpoints, eigenvals):
+    def __init__(self, *, kpoints, eigenvals):
         if not isinstance(kpoints, KpointsBase):
             kpoints = KpointsExplicit(kpoints)
 
@@ -37,7 +34,11 @@ class EigenvalsData(Serializable, namedtuple('EigenvalsBase', ['kpoints', 'eigen
                     len(kpoints.kpoints_explicit), len(eigenvals)
                 )
             )
-        return super().__new__(cls, kpoints, eigenvals)
+        self.kpoints = kpoints
+        self.eigenvals = eigenvals
+
+    def __repr__(self):
+        return 'EigenvalsData(kpoins={}, eigenvals={})'.format(self.kpoints, self.eigenvals)
 
     def slice_bands(self, band_idx):
         """
