@@ -3,6 +3,8 @@
 #
 # Author:  Dominik Gresch <greschd@gmx.ch>
 
+import types
+
 import numpy as np
 from fsc.export import export
 
@@ -11,7 +13,7 @@ from . import KpointsBase
 
 @export
 @subscribe_serialize('kpoints_explicit')
-class KpointsExplicit(KpointsBase):
+class KpointsExplicit(KpointsBase, types.SimpleNamespace):
     """
     Defines an explicit set of k-points.
 
