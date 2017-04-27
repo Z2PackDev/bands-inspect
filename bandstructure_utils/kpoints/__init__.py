@@ -9,4 +9,5 @@ This module contains classes to define sets of k-points, for example for a k-poi
 
 from ._base import *
 from ._mesh import *
+from ._path import *
 from ._explicit import *

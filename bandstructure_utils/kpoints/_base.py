@@ -4,9 +4,10 @@
 # Author:  Dominik Gresch <greschd@gmx.ch>
 
 import abc
-from .._serializable import Serializable
 
 from fsc.export import export
+
+from .._serializable import Serializable
 
 @export
 class KpointsBase(Serializable):
