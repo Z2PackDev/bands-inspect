@@ -12,6 +12,7 @@ from fsc.export import export
 
 from ..io._serialize_mapping import subscribe_serialize
 from ._base import KpointsBase
+from .. import _hdf5_utils
 
 @export
 @subscribe_serialize('kpoints_path')
@@ -75,57 +76,24 @@ class KpointsPath(KpointsBase):
         return self.kpoints_explicit
 
     def to_hdf5(self, hdf5_handle):
-        self._nested_list_to_hdf5(
+        _hdf5_utils._nested_list_to_hdf5(
             hdf5_handle.create_group('paths'), self.paths, str
         )
-        self._nested_list_to_hdf5(
+        _hdf5_utils._nested_list_to_hdf5(
             hdf5_handle.create_group('points_per_line'), self.points_per_line
         )
-        self._dict_to_hdf5(
+        _hdf5_utils._dict_to_hdf5(
             hdf5_handle.create_group('vertices'), self.vertices
         )
 
-    @staticmethod
-    def _nested_list_to_hdf5(hdf5_handle, value, special_dtype=None):
-        if special_dtype is None:
-            dtype=None
-        else:
-            dtype = h5py.special_dtype(vlen=special_dtype)
-            value = [np.array(el, dtype=object) for el in value]
-        for i, element in enumerate(value):
-            hdf5_handle.create_dataset(
-                str(i),
-                data=element,
-                dtype=dtype
-            )
-
-    @staticmethod
-    def _dict_to_hdf5(hdf5_handle, value):
-        for key, val in value.items():
-            hdf5_handle[key] = val
-
     @classmethod
     def from_hdf5(cls, hdf5_handle):
-        paths = cls._nested_list_from_hdf5(hdf5_handle['paths'])
-        points_per_line = cls._nested_list_from_hdf5(hdf5_handle['points_per_line'])
-        vertices = cls._dict_from_hdf5(hdf5_handle['vertices'])
+        paths = _hdf5_utils._nested_list_from_hdf5(hdf5_handle['paths'])
+        points_per_line = _hdf5_utils._nested_list_from_hdf5(hdf5_handle['points_per_line'])
+        vertices = _hdf5_utils._dict_from_hdf5(hdf5_handle['vertices'])
 
         return cls(
             vertices=vertices,
             paths=paths,
             points_per_line=points_per_line
         )
-
-    @staticmethod
-    def _nested_list_from_hdf5(hdf5_handle):
-        res = []
-        for idx in sorted(hdf5_handle, key=int):
-            res.append(list(hdf5_handle[idx].value))
-        return res
-
-    @staticmethod
-    def _dict_from_hdf5(hdf5_handle):
-        res = dict()
-        for key in hdf5_handle:
-            res[key] = hdf5_handle[key].value
-        return res
