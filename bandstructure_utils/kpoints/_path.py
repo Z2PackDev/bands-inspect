@@ -12,7 +12,7 @@ from fsc.export import export
 
 from ..io._serialize_mapping import subscribe_serialize
 from ._base import KpointsBase
-from .. import _hdf5_utils
+from ..io import _hdf5_utils
 
 @export
 @subscribe_serialize('kpoints_path')
