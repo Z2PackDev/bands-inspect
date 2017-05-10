@@ -69,12 +69,6 @@ class KpointsPath(KpointsBase):
             kpoints.extend([(1 - s) * k_start + s * k_end for s in steps])
         return kpoints
 
-    def __iter__(self):
-        return iter(self.kpoints_explicit)
-
-    def __array__(self):
-        return self.kpoints_explicit
-
     def to_hdf5(self, hdf5_handle):
         _hdf5_utils._nested_list_to_hdf5(
             hdf5_handle.create_group('paths'), self.paths, str
