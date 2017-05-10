@@ -4,15 +4,14 @@
 # Author:  Dominik Gresch <greschd@gmx.ch>
 
 import abc
-import h5py
 import numbers
 import numpy as np
 
 from fsc.export import export
 
 from ..io._serialize_mapping import subscribe_serialize
-from ._base import KpointsBase
 from ..io import _hdf5_utils
+from ._base import KpointsBase
 
 @export
 @subscribe_serialize('kpoints_path')
