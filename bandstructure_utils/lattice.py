@@ -7,6 +7,8 @@ import numpy as np
 import scipy.linalg as la
 from fsc.export import export
 
+# TODO: move to a separate module
+
 @export
 class Lattice:
     def __init__(self, matrix):
