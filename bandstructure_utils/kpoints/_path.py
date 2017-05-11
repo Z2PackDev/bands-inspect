@@ -11,6 +11,7 @@ from fsc.export import export
 
 from ..io._serialize_mapping import subscribe_serialize
 from ..io import _hdf5_utils
+from ..lattice import Lattice
 from ._base import KpointsBase
 
 @export
@@ -51,6 +52,32 @@ class KpointsPath(KpointsBase):
                 raise ValueError("Invalid number of entries in 'points_per_line'.")
             if any(num_points < 2 for num_points in path_num_points):
                 raise ValueError("The number of k-points in each line must be at least 2.")
+
+    @classmethod
+    def from_lattice(cls, *, lattice, vertices, paths, total_num_points=1000):
+        lattice = Lattice(lattice)
+        num_duplicate_points = sum(len(p) for p in paths) - 2 * len(paths)
+        total_length = 0
+        vertex_lengths = []
+        for single_path in paths:
+            path_vertex_lenghts = [total_length]
+            for start, end in zip(single_path, single_path[1:]):
+                total_length += lattice.get_reciprocal_cartesian_distance(
+                    vertices[start], vertices[end]
+                )
+                path_vertex_lenghts.append(total_length)
+            vertex_lengths.append(path_vertex_lenghts)
+        vertex_indices = [
+            [int(np.round_(
+                (vl * (total_num_points + num_duplicate_points)) / total_length)
+            ) for vl in path_vl]
+            for path_vl in vertex_lengths
+        ]
+        points_per_line = [
+            [end - start for start, end in zip(path_vi, path_vi[1:])]
+            for path_vi in vertex_indices
+        ]
+        return cls(vertices=vertices, paths=paths, points_per_line=points_per_line)
 
     @property
     def kpoints_explicit(self):

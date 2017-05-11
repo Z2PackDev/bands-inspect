@@ -31,3 +31,6 @@ class Lattice:
         return la.norm(
             self.get_cartesian_coords(fractional_coord_1) - self.get_cartesian_coords(fractional_coord_2)
         )
+
+    def get_reciprocal_cartesian_distance(self, reciprocal_fractional_coord_1, reciprocal_fractional_coord_2):
+        return self.reciprocal_lattice.get_cartesian_distance(reciprocal_fractional_coord_1, reciprocal_fractional_coord_2)

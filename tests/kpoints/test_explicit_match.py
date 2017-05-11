@@ -18,6 +18,24 @@ INSTANCES_EXPLICIT_KPOINTS = [
     (KpointsPath(vertices=VERTICES, paths=[['a', 'b', 'c']], points_per_line=2), [[0, 0], [0.5, 0.5], [0.5, 0]]),
     (KpointsPath(vertices=VERTICES, paths=[['a', 'b'], ['c', 'a']], points_per_line=2), [[0, 0], [0.5, 0.5], [0.5, 0], [0, 0]]),
     (KpointsPath(vertices=VERTICES, paths=[['a', 'b', 'c']], points_per_line=3), [[0, 0], [0.25, 0.25], [0.5, 0.5], [0.5, 0.25], [0.5, 0]]),
+    (
+        KpointsPath.from_lattice(
+            lattice=[[1, 0], [0, 2]],
+            vertices=VERTICES,
+            paths=[['a', 'b', 'c']],
+            total_num_points=4
+        ),
+        [[0, 0], [0.25, 0.25], [0.5, 0.5], [0.5, 0]]
+    ),
+    (
+        KpointsPath.from_lattice(
+            lattice=[[1, 0], [0, 1]],
+            vertices=VERTICES,
+            paths=[['a', 'b', 'c']],
+            total_num_points=3
+        ),
+        [[0, 0], [0.5, 0.5], [0.5, 0]]
+    ),
 ]
 
 @pytest.mark.parametrize('instance, reference', INSTANCES_EXPLICIT_KPOINTS)
