@@ -14,6 +14,9 @@ class Lattice:
     def __init__(self, matrix):
         self.matrix = np.array(matrix)
 
+    def __array__(self):
+        return self.matrix
+
     @property
     def reciprocal_lattice(self):
         return type(self)(matrix=2 * np.pi * la.inv(self.matrix).T)
