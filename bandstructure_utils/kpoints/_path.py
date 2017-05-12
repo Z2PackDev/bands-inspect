@@ -3,6 +3,8 @@
 #
 # Author:  Dominik Gresch <greschd@gmx.ch>
 
+from collections import namedtuple
+
 import numpy as np
 from fsc.export import export
 
@@ -31,7 +33,6 @@ class KpointsPath(KpointsBase):
         if len(dimensions) != 1:
             raise ValueError('Inconsistent dimensions: {}'.format(dimensions))
         dim = dimensions.pop()
-        self._kpoint_distance = kpoint_distance
         if unit_cell == 'auto':
             uc = np.eye(dim)
         else:
@@ -39,6 +40,7 @@ class KpointsPath(KpointsBase):
         if uc.shape != (dim, dim):
             raise ValueError('Inconsistent shape of the unit cell: {}, should be {}'.format(uc.shape, (dim, dim)))
         self._lattice = Lattice(matrix=uc)
+        self._kpoint_distance = kpoint_distance
         self._evaluate_paths()
 
     def _evaluate_paths(self):
@@ -50,9 +52,9 @@ class KpointsPath(KpointsBase):
         self._kpoints_explicit.flags.writeable = False
 
     def _evaluate_single_path(self, single_path):
-        self._kpoints_explicit.append(single_path[0].frac)
         N = len(self._kpoints_explicit)
-        self._labels.append((N, single_path[0].label))
+        self._kpoints_explicit.append(single_path[0].frac)
+        self._labels.append(_KpointLabel(index=N, label=single_path[0].label))
         for start, end in zip(single_path, single_path[1:]):
             self._evaluate_line(start, end)
 
@@ -62,7 +64,10 @@ class KpointsPath(KpointsBase):
         steps = np.linspace(0, 1, npoints)[1:]
         kpoints = [(1 - s) * start.frac + s * end.frac for s in steps]
         self._kpoints_explicit.extend(kpoints)
-        self._labels.append((len(self._kpoints_explicit) - 1, end.label))
+        self._labels.append(_KpointLabel(
+            index=len(self._kpoints_explicit) - 1,
+            label=end.label
+        ))
 
     @property
     def kpoints_explicit(self):
@@ -112,3 +117,5 @@ class _Vertex:
     @property
     def dimension(self):
         return self.frac.shape[0]
+
+_KpointLabel = namedtuple('_KpointLabel', ['index', 'label'])

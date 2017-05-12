@@ -9,3 +9,4 @@ from . import kpoints
 from ._eigenvals import *
 from . import compare
 from . import lattice
+from . import plot
