@@ -3,10 +3,7 @@
 #
 # Author:  Dominik Gresch <greschd@gmx.ch>
 
-import abc
-import numbers
 import numpy as np
-
 from fsc.export import export
 
 from ..io._serialize_mapping import subscribe_serialize
@@ -18,102 +15,100 @@ from ._base import KpointsBase
 @subscribe_serialize('kpoints_path')
 class KpointsPath(KpointsBase):
     """
-    Defines a k-point path, with labelled vertices.
+    Defines a k-point path.
 
-    :param vertices: Defines the special k-point vertices used in the path.
-    :type vertices: dict
-
-    :param paths: List of k-point paths. Each k-point path is a list of vertices. Only vertices within the same path are connected.
-    :type paths: list
-
-    :param points_per_line: Number of k-points in each line connecting two k-points. This can be either an integer (in which case all lines contain the same number of k-points, or a nested list of integers (corresponding to each line).
-    :type points_per_line: int, list
     """
-    def __init__(self, *, vertices, paths, points_per_line=100):
-        self.vertices = {str(label): np.array(kpt) for label, kpt in vertices.items()}
-        self.paths = [[str(p) for p in single_path] for single_path in paths]
-        all_vertices = set()
-        for path in self.paths:
-            all_vertices.update(path)
-        unknown_vertices = all_vertices - self.vertices.keys()
-        if unknown_vertices:
-            raise ValueError("Unrecognized {} {} in 'path'. Vertices must be defined in the 'vertices' mapping.".format('vertex' if len(unknown_vertices) == 1 else 'vertices', ', '.join(str(x) for x in unknown_vertices)))
-        if isinstance(points_per_line, numbers.Integral):
-            self.points_per_line = [
-                [points_per_line] * (len(single_path) - 1)
-                for single_path in self.paths
-            ]
+    def __init__(self, *, paths, special_points={}, kpoint_distance=1e-3, unit_cell='auto'):
+        self._paths = [
+            [_Vertex(pt, special_points) for pt in single_path]
+            for single_path in paths
+        ]
+        dimensions = set(
+            pt.dimension
+            for single_path in  self._paths
+            for pt in single_path
+        )
+        if len(dimensions) != 1:
+            raise ValueError('Inconsistent dimensions: {}'.format(dimensions))
+        dim = dimensions.pop()
+        self._kpoint_distance = kpoint_distance
+        if unit_cell == 'auto':
+            uc = np.eye(dim)
         else:
-            self.points_per_line = list(points_per_line)
-        for single_path, path_num_points in zip(self.paths, self.points_per_line):
-            if len(single_path) < 2:
-                raise ValueError('Each individual k-point path must have at least 2 vertices.')
-            if len(single_path) != len(path_num_points) + 1:
-                raise ValueError("Invalid number of entries in 'points_per_line'.")
-            if any(num_points < 2 for num_points in path_num_points):
-                raise ValueError("The number of k-points in each line must be at least 2.")
+            uc = np.array(unit_cell)
+        if uc.shape != (dim, dim):
+            raise ValueError('Inconsistent shape of the unit cell: {}, should be {}'.format(uc.shape, (dim, dim)))
+        self._lattice = Lattice(matrix=uc)
+        self._evaluate_paths()
 
-    @classmethod
-    def from_lattice(cls, *, lattice, vertices, paths, total_num_points=1000):
-        lattice = Lattice(lattice)
-        num_duplicate_points = sum(len(p) for p in paths) - 2 * len(paths)
-        total_length = 0
-        vertex_lengths = []
-        for single_path in paths:
-            path_vertex_lenghts = [total_length]
-            for start, end in zip(single_path, single_path[1:]):
-                total_length += lattice.get_reciprocal_cartesian_distance(
-                    vertices[start], vertices[end]
-                )
-                path_vertex_lenghts.append(total_length)
-            vertex_lengths.append(path_vertex_lenghts)
-        vertex_indices = [
-            [int(np.round_(
-                (vl * (total_num_points + num_duplicate_points)) / total_length)
-            ) for vl in path_vl]
-            for path_vl in vertex_lengths
-        ]
-        points_per_line = [
-            [end - start for start, end in zip(path_vi, path_vi[1:])]
-            for path_vi in vertex_indices
-        ]
-        return cls(vertices=vertices, paths=paths, points_per_line=points_per_line)
+    def _evaluate_paths(self):
+        self._kpoints_explicit = []
+        self._labels = []
+        for single_path in self._paths:
+            self._evaluate_single_path(single_path)
+        self._kpoints_explicit = np.array(self._kpoints_explicit)
+        self._kpoints_explicit.flags.writeable = False
+
+    def _evaluate_single_path(self, single_path):
+        self._kpoints_explicit.append(single_path[0].frac)
+        N = len(self._kpoints_explicit)
+        self._labels.append((N, single_path[0].label))
+        for start, end in zip(single_path, single_path[1:]):
+            self._evaluate_line(start, end)
+
+    def _evaluate_line(self, start, end):
+        dist = self._lattice.get_reciprocal_cartesian_distance(start.frac, end.frac)
+        npoints = max(int(np.round_(dist / self._kpoint_distance)) + 1, 2)
+        steps = np.linspace(0, 1, npoints)[1:]
+        kpoints = [(1 - s) * start.frac + s * end.frac for s in steps]
+        self._kpoints_explicit.extend(kpoints)
+        self._labels.append((len(self._kpoints_explicit) - 1, end.label))
 
     @property
     def kpoints_explicit(self):
-        kpoints = []
-        for single_path, path_num_points in zip(self.paths, self.points_per_line):
-            kpoints.extend(self._path_kpoints(single_path, path_num_points))
-        return np.array(kpoints)
+        return self._kpoints_explicit
 
-    def _path_kpoints(self, path, num_kpoints):
-        kpoints = [self.vertices[path[0]]]
-        for start, end, n_points in zip(path, path[1:], num_kpoints):
-            steps = np.linspace(0, 1, n_points)[1:]
-            k_start = self.vertices[start]
-            k_end = self.vertices[end]
-            kpoints.extend([(1 - s) * k_start + s * k_end for s in steps])
-        return kpoints
+    @property
+    def labels(self):
+        return self._labels
 
     def to_hdf5(self, hdf5_handle):
+        path_labels = [
+            [pt.label for pt in single_path]
+            for single_path in self._paths
+        ]
         _hdf5_utils._nested_list_to_hdf5(
-            hdf5_handle.create_group('paths'), self.paths, str
+            hdf5_handle.create_group('path_labels'), path_labels, str
         )
-        _hdf5_utils._nested_list_to_hdf5(
-            hdf5_handle.create_group('points_per_line'), self.points_per_line
-        )
+        special_points = {
+            pt.label: pt.frac
+            for special_path in self._paths for pt in special_path
+        }
         _hdf5_utils._dict_to_hdf5(
-            hdf5_handle.create_group('vertices'), self.vertices
+            hdf5_handle.create_group('special_points'), special_points
         )
+        hdf5_handle['kpoint_distance'] = self._kpoint_distance
+        hdf5_handle['unit_cell'] = self._lattice.matrix
 
     @classmethod
     def from_hdf5(cls, hdf5_handle):
-        paths = _hdf5_utils._nested_list_from_hdf5(hdf5_handle['paths'])
-        points_per_line = _hdf5_utils._nested_list_from_hdf5(hdf5_handle['points_per_line'])
-        vertices = _hdf5_utils._dict_from_hdf5(hdf5_handle['vertices'])
+        path_labels = _hdf5_utils._nested_list_from_hdf5(hdf5_handle['path_labels'])
+        special_points = _hdf5_utils._dict_from_hdf5(hdf5_handle['special_points'])
+        kpoint_distance = hdf5_handle['kpoint_distance'].value
+        unit_cell = hdf5_handle['unit_cell'].value
 
         return cls(
-            vertices=vertices,
-            paths=paths,
-            points_per_line=points_per_line
+            paths=path_labels,
+            special_points=special_points,
+            kpoint_distance=kpoint_distance,
+            unit_cell=unit_cell
         )
+
+class _Vertex:
+    def __init__(self, point, special_points):
+        self.frac = np.array(special_points.get(point, point))
+        self.label = str(point)
+
+    @property
+    def dimension(self):
+        return self.frac.shape[0]
