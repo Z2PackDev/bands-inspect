@@ -6,7 +6,7 @@
 from ._version import __version__
 
 from . import kpoints
-from ._eigenvals import *
+from . import eigenvals
 from . import compare
 from . import lattice
 from . import plot

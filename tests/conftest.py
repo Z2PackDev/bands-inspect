@@ -50,7 +50,7 @@ def assert_equal():
     def inner(obj1, obj2):
         if isinstance(obj1, bs.kpoints.KpointsBase):
             np.testing.assert_equal(obj1.kpoints_explicit, obj2.kpoints_explicit)
-        elif isinstance(obj1, bs.EigenvalsData):
+        elif isinstance(obj1, bs.eigenvals.EigenvalsData):
             np.testing.assert_equal(obj1.kpoints.kpoints_explicit, obj2.kpoints.kpoints_explicit)
             np.testing.assert_equal(obj1.eigenvals, obj2.eigenvals)
         else:
