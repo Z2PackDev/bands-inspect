@@ -6,7 +6,7 @@ Reference
 Defining k-points
 -----------------
 
-.. automodule:: bandstructure_utils.kpoints
+.. automodule:: bands_inspect.kpoints
     :members:
     :imported-members:
     :inherited-members:
@@ -14,14 +14,14 @@ Defining k-points
 Eigenvalue Data
 ---------------
 
-.. autoclass:: bandstructure_utils.EigenvalsData
+.. autoclass:: bands_inspect.EigenvalsData
     :imported-members:
     :inherited-members:
 
 Saving and Loading
 ------------------
 
-.. automodule:: bandstructure_utils.io
+.. automodule:: bands_inspect.io
     :members:
     :imported-members:
     :inherited-members:

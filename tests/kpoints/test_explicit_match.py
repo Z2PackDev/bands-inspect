@@ -7,7 +7,7 @@ import pytest
 import numpy as np
 from numpy.testing import assert_equal
 
-from bandstructure_utils.kpoints import *
+from bands_inspect.kpoints import *
 
 VERTICES = {'a': [0, 0], 'b': [0.5, 0.5], 'c': [0.5, 0]}
 

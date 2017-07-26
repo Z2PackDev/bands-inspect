@@ -3,9 +3,9 @@
 #
 # Author:  Dominik Gresch <greschd@gmx.ch>
 
-import bandstructure_utils as bs
-from bandstructure_utils.kpoints import *
-from bandstructure_utils.eigenvals import *
+import bands_inspect as bi
+from bands_inspect.kpoints import *
+from bands_inspect.eigenvals import *
 
 KPOINTS_INSTANCES = [
     KpointsExplicit([[0.1, 0.5, 0.2], [0.9, 0.3, 0.5]]),

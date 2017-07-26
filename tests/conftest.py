@@ -11,7 +11,7 @@ import json
 import pytest
 import numpy as np
 
-import bandstructure_utils as bs
+import bands_inspect as bi
 
 import parameters
 
@@ -48,9 +48,9 @@ def compare_equal(compare_data):
 @pytest.fixture
 def assert_equal():
     def inner(obj1, obj2):
-        if isinstance(obj1, bs.kpoints.KpointsBase):
+        if isinstance(obj1, bi.kpoints.KpointsBase):
             np.testing.assert_equal(obj1.kpoints_explicit, obj2.kpoints_explicit)
-        elif isinstance(obj1, bs.eigenvals.EigenvalsData):
+        elif isinstance(obj1, bi.eigenvals.EigenvalsData):
             np.testing.assert_equal(obj1.kpoints.kpoints_explicit, obj2.kpoints.kpoints_explicit)
             np.testing.assert_equal(obj1.eigenvals, obj2.eigenvals)
         else:

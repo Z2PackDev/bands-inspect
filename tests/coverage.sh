@@ -1,2 +1,2 @@
 #!/bin/bash
-py.test --cov=bandstructure_utils --cov-report=html
+py.test --cov=bands_inspect --cov-report=html

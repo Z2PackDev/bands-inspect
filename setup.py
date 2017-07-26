@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
-# Author:  Dominik Gresch <greschd@gmx.ch>
-# Date:    20.10.2014 11:27:40 CEST
-# File:    setup.py
 
 import re
 from setuptools import setup, find_packages
@@ -14,18 +10,19 @@ if sys.version_info < (3, 4):
 
 readme = """Utilities for creating, comparing and plotting bandstructures of materials."""
 
-with open('./bandstructure_utils/_version.py', 'r') as f:
+with open('./bands_inspect/_version.py', 'r') as f:
     match_expr = "__version__[^'" + '"]+([' + "'" + r'"])([^\1]+)\1'
     version = re.search(match_expr, f.read()).group(2)
 
 setup(
-    name='bandstructure-utils',
+    name='bands-inspect',
     version=version,
-    url='http://z2pack.ethz.ch/bandstructure-utils',
+    url='http://z2pack.ethz.ch/bands-inspect',
     author='Dominik Gresch',
     author_email='greschd@gmx.ch',
     description=readme,
     install_requires=['numpy', 'scipy', 'matplotlib', 'h5py', 'click', 'decorator', 'fsc.export'],
+    extras_require={'test': ['pytest', 'pytest-cov']},
     classifiers=[
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Natural Language :: English',
@@ -40,8 +37,8 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        bandstructure_utils=bandstructure_utils._cli:cli
+        bands_inspect=bands_inspect._cli:cli
     ''',
     license='GPL',
-    packages=['bandstructure_utils', 'bandstructure_utils.kpoints', 'bandstructure_utils.io', 'bandstructure_utils.compare']
+    packages=['bands_inspect', 'bands_inspect.kpoints', 'bands_inspect.io', 'bands_inspect.compare']
 )
