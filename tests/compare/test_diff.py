@@ -8,6 +8,7 @@ import numpy as np
 import pytest
 
 import bands_inspect as bi
+from bands_inspect.compare import difference as diff
 
 @pytest.fixture
 def simple_eigenvals():
@@ -23,14 +24,14 @@ def simple_eigenvals():
 
 def test_zero_diff(sample):
     ev = bi.io.load(sample('silicon_bands.hdf5'))
-    assert np.isclose(bi.compare.difference(ev, ev), 0)
+    assert np.isclose(diff.general(ev, ev), 0)
 
 def test_nonzero_diff(simple_eigenvals):
-    assert np.isclose(bi.compare.difference(*simple_eigenvals), 1 / 4)
+    assert np.isclose(diff.general(*simple_eigenvals), 1 / 4)
 
 def test_energy_window_1(simple_eigenvals):
     assert np.isclose(
-        bi.compare.difference_energy_window(
+        diff.energy_window(
             *simple_eigenvals,
             energy_window=(0, 3.5)
         ),
@@ -39,7 +40,7 @@ def test_energy_window_1(simple_eigenvals):
 
 def test_energy_window_2(simple_eigenvals):
     assert np.isclose(
-        bi.compare.difference_energy_window(
+        diff.energy_window(
             *simple_eigenvals,
             energy_window=(3.5, 5)
         ),
@@ -48,7 +49,7 @@ def test_energy_window_2(simple_eigenvals):
 
 def test_energy_window_3(simple_eigenvals):
     assert np.isclose(
-        bi.compare.difference_energy_window(
+        diff.energy_window(
             *simple_eigenvals,
             energy_window=(2.9, 4.1)
         ),
@@ -57,10 +58,27 @@ def test_energy_window_3(simple_eigenvals):
 
 def test_energy_window_4(simple_eigenvals):
     assert np.isclose(
-        bi.compare.difference_energy_window(
+        diff.energy_window(
             *simple_eigenvals,
             symmetric_eigenval_weights=False,
             energy_window=(2.9, 4.1)
         ),
         1 / 2
+    )
+
+def test_select_bands_1(simple_eigenvals):
+    assert np.isclose(
+        diff.select_bands(
+            *simple_eigenvals,
+            bands=(1,)
+        ),
+        1 / 2
+    )
+def test_select_bands_2(simple_eigenvals):
+    assert np.isclose(
+        diff.select_bands(
+            *simple_eigenvals,
+            bands=(0,)
+        ),
+        0
     )

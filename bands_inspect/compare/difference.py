@@ -7,7 +7,7 @@ import numpy as np
 from fsc.export import export
 
 @export
-def difference(
+def general(
         eigenvals1, eigenvals2,
         *,
         avg_func=np.average,
@@ -36,7 +36,7 @@ def difference(
     return avg_func(diff, weights=weights)
 
 @export
-def difference_energy_window(
+def energy_window(
         *args,
         energy_window,
         **kwargs
@@ -47,4 +47,18 @@ def difference_energy_window(
             np.logical_and(lower < eigenvals, eigenvals < upper),
             dtype=int
         )
-    return difference(*args, weight_eigenval=weight_eigenval, **kwargs)
+    return general(*args, weight_eigenval=weight_eigenval, **kwargs)
+
+@export
+def select_bands(
+        *args,
+        bands,
+        **kwargs
+    ):
+    bands = list(bands)
+    def weight_eigenval(eigenvals):
+        return np.array([
+            [int(i in bands) for i, _ in enumerate(ev)]
+            for ev in eigenvals
+        ])
+    return general(*args, weight_eigenval=weight_eigenval, **kwargs)
