@@ -22,7 +22,7 @@ class Lattice:
         return type(self)(matrix=2 * np.pi * la.inv(self.matrix).T)
 
     def get_cartesian_coords(self, fractional_coords):
-        return fractional_coords @ self.matrix
+        return np.dot(fractional_coords, self.matrix)
 
     def get_fractional_coords(self, cartesian_coords):
         return la.solve(self.uc.T, np.array(cartesian_coords).T).T
