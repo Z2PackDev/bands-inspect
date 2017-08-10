@@ -24,62 +24,44 @@ def simple_eigenvals():
 
 def test_zero_diff(sample):
     ev = bi.io.load(sample('silicon_bands.hdf5'))
-    assert np.isclose(diff.general(ev, ev), 0)
+    assert np.isclose(diff.calculate(ev, ev), 0)
 
 def test_nonzero_diff(simple_eigenvals):
-    assert np.isclose(diff.general(*simple_eigenvals), 1 / 4)
+    assert np.isclose(diff.calculate(*simple_eigenvals), 1 / 4)
 
 def test_energy_window_1(simple_eigenvals):
     assert np.isclose(
-        diff.energy_window(
+        diff.calculate(
             *simple_eigenvals,
-            energy_window=(0, 3.5)
+            weight_eigenval=diff.energy_window(0, 3.5)
         ),
         0
     )
 
 def test_energy_window_2(simple_eigenvals):
     assert np.isclose(
-        diff.energy_window(
+        diff.calculate(
             *simple_eigenvals,
-            energy_window=(3.5, 5)
+            weight_eigenval=diff.energy_window(3.5, 5)
         ),
         1
     )
 
 def test_energy_window_3(simple_eigenvals):
     assert np.isclose(
-        diff.energy_window(
+        diff.calculate(
             *simple_eigenvals,
-            energy_window=(2.9, 4.1)
+            weight_eigenval=diff.energy_window(2.9, 4.1)
         ),
         1 / 3
     )
 
 def test_energy_window_4(simple_eigenvals):
     assert np.isclose(
-        diff.energy_window(
+        diff.calculate(
             *simple_eigenvals,
             symmetric_eigenval_weights=False,
-            energy_window=(2.9, 4.1)
+            weight_eigenval=diff.energy_window(2.9, 4.1)
         ),
         1 / 2
-    )
-
-def test_select_bands_1(simple_eigenvals):
-    assert np.isclose(
-        diff.select_bands(
-            *simple_eigenvals,
-            bands=(1,)
-        ),
-        1 / 2
-    )
-
-def test_select_bands_2(simple_eigenvals):
-    assert np.isclose(
-        diff.select_bands(
-            *simple_eigenvals,
-            bands=(0,)
-        ),
-        0
     )
