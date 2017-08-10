@@ -32,5 +32,22 @@ def difference(eigenval_files, energy_window):
 
     click.echo(_diff.calculate(ev1, ev2, **kwargs))
 
-# @cli.group()
-# def ():
+@cli.command()
+@click.option(
+    '--input', '-i',
+    type=click.Path(exists=True, dir_okay=False),
+    default='eigenval.hdf5',
+    help='File containing the input eigenvalues (in HDF5 format).'
+)
+@click.option(
+    '--output', '-o',
+    type=click.Path(dir_okay=False)
+)
+@click.argument(
+    'slice_idx',
+    nargs=-1,
+    type=int
+)
+def slice_bands(input, output, slice_idx):
+    ev = io.load(input)
+    io.save(ev.slice_bands(slice_idx), output)
