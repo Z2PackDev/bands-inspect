@@ -11,7 +11,7 @@ from .compare import difference as _diff
 def cli():
     pass
 
-@cli.group(invoke_without_command=True)
+@cli.command()
 @click.argument(
     'eigenval_files',
     nargs=2,
@@ -24,22 +24,13 @@ def cli():
     required=False
 )
 def difference(eigenval_files, energy_window):
-    eigenvals = [io.load(filename) for filename in eigenval_files]
+    ev1, ev2 = [io.load(filename) for filename in eigenval_files]
 
     kwargs = {}
     if energy_window:
         kwargs['weight_eigenval'] = _diff.energy_window(*energy_window)
 
-    click.echo(_diff.calculate(*eigenvals, **kwargs))
+    click.echo(_diff.calculate(ev1, ev2, **kwargs))
 
-
-# @difference.command()
-# @click.argument(
-#     'bands',
-#     nargs=-1,
-#     type=int
-# )
-# @click.pass_context
-# def select_bands(ctx, bands):
-#     ev1, ev2 = ctx.obj
-#     click.echo(_diff.select_bands(ev1, ev2, bands=bands))
+# @cli.group()
+# def ():
