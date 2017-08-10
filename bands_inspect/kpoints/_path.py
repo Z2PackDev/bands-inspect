@@ -33,7 +33,7 @@ class KpointsPath(KpointsBase):
         if len(dimensions) != 1:
             raise ValueError('Inconsistent dimensions: {}'.format(dimensions))
         dim = dimensions.pop()
-        if unit_cell == 'auto':
+        if unit_cell is 'auto':
             uc = np.eye(dim)
         else:
             uc = np.array(unit_cell)

@@ -17,32 +17,29 @@ def cli():
     nargs=2,
     type=click.Path(exists=True, dir_okay=False)
 )
-@click.pass_context
-def difference(ctx, eigenval_files):
-    ev1 = io.load(eigenval_files[0])
-    ev2 = io.load(eigenval_files[1])
-    ctx.obj = ev1, ev2
-    if ctx.invoked_subcommand is None:
-        click.echo(_diff.general(ev1, ev2))
-
-@difference.command()
-@click.argument(
-    'energy_window',
+@click.option(
+    '--energy-window',
     nargs=2,
-    type=float
+    type=float,
+    required=False
 )
-@click.pass_context
-def energy_window(ctx, energy_window):
-    ev1, ev2 = ctx.obj
-    click.echo(_diff.energy_window(ev1, ev2, energy_window=energy_window))
+def difference(eigenval_files, energy_window):
+    eigenvals = [io.load(filename) for filename in eigenval_files]
 
-@difference.command()
-@click.argument(
-    'bands',
-    nargs=-1,
-    type=int
-)
-@click.pass_context
-def select_bands(ctx, bands):
-    ev1, ev2 = ctx.obj
-    click.echo(_diff.select_bands(ev1, ev2, bands=bands))
+    kwargs = {}
+    if energy_window:
+        kwargs['weight_eigenval'] = _diff.energy_window(*energy_window)
+
+    click.echo(_diff.calculate(*eigenvals, **kwargs))
+
+
+# @difference.command()
+# @click.argument(
+#     'bands',
+#     nargs=-1,
+#     type=int
+# )
+# @click.pass_context
+# def select_bands(ctx, bands):
+#     ev1, ev2 = ctx.obj
+#     click.echo(_diff.select_bands(ev1, ev2, bands=bands))
