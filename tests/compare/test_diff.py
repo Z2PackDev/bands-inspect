@@ -74,6 +74,7 @@ def test_select_bands_1(simple_eigenvals):
         ),
         1 / 2
     )
+
 def test_select_bands_2(simple_eigenvals):
     assert np.isclose(
         diff.select_bands(

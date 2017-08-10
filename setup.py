@@ -37,7 +37,7 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        bands_inspect=bands_inspect._cli:cli
+        bands-inspect=bands_inspect._cli:cli
     ''',
     license='GPL',
     packages=['bands_inspect', 'bands_inspect.kpoints', 'bands_inspect.io', 'bands_inspect.compare']

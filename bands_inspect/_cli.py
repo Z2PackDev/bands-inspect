@@ -4,7 +4,8 @@
 # Author:  Dominik Gresch <greschd@gmx.ch>
 
 import click
-from . import io, compare
+from . import io
+from .compare import difference as _diff
 
 @click.group()
 def cli():
@@ -22,7 +23,7 @@ def difference(ctx, eigenval_files):
     ev2 = io.load(eigenval_files[1])
     ctx.obj = ev1, ev2
     if ctx.invoked_subcommand is None:
-        click.echo(compare.difference.general(ev1, ev2))
+        click.echo(_diff.general(ev1, ev2))
 
 @difference.command()
 @click.argument(
@@ -33,4 +34,15 @@ def difference(ctx, eigenval_files):
 @click.pass_context
 def energy_window(ctx, energy_window):
     ev1, ev2 = ctx.obj
-    click.echo(compare.difference.energy_window(ev1, ev2, energy_window=energy_window))
+    click.echo(_diff.energy_window(ev1, ev2, energy_window=energy_window))
+
+@difference.command()
+@click.argument(
+    'bands',
+    nargs=-1,
+    type=int
+)
+@click.pass_context
+def select_bands(ctx, bands):
+    ev1, ev2 = ctx.obj
+    click.echo(_diff.select_bands(ev1, ev2, bands=bands))
