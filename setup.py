@@ -14,7 +14,7 @@ with open('./bands_inspect/_version.py', 'r') as f:
     match_expr = "__version__[^'" + '"]+([' + "'" + r'"])([^\1]+)\1'
     version = re.search(match_expr, f.read()).group(2)
 
-extras_require = {'test': ['pytest', 'pytest-cov'], 'dev': ['yapf']}
+extras_require = {'test': ['pytest', 'pytest-cov'], 'dev': ['pre-commit']}
 extras_require['dev'] += extras_require['test']
 
 setup(
@@ -24,12 +24,14 @@ setup(
     author='Dominik Gresch',
     author_email='greschd@gmx.ch',
     description=readme,
-    install_requires=['numpy', 'scipy', 'matplotlib', 'h5py', 'click', 'decorator', 'fsc.export'],
+    install_requires=[
+        'numpy', 'scipy', 'matplotlib', 'h5py', 'click', 'decorator',
+        'fsc.export'
+    ],
     extras_require=extras_require,
     classifiers=[
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
-        'Natural Language :: English',
-        'Operating System :: Unix',
+        'Natural Language :: English', 'Operating System :: Unix',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
@@ -43,5 +45,8 @@ setup(
         bands-inspect=bands_inspect._cli:cli
     ''',
     license='GPL',
-    packages=['bands_inspect', 'bands_inspect.kpoints', 'bands_inspect.io', 'bands_inspect.compare']
+    packages=[
+        'bands_inspect', 'bands_inspect.kpoints', 'bands_inspect.io',
+        'bands_inspect.compare'
+    ]
 )

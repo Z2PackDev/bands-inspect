@@ -120,7 +120,6 @@ pygments_style = 'sphinx'
 # If true, keep warnings as "system message" paragraphs in the built documents.
 #keep_warnings = False
 
-
 # -- Options for HTML output ----------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -133,9 +132,9 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 # further.  For a list of options available for each theme, see the
 # documentation.
 #~ html_theme_options = {
-  #~ 'inner_theme': True,
-  #~ 'inner_theme_name': 'bootswatch-darkly',
-  #~ 'nav_fixed_top': False
+#~ 'inner_theme': True,
+#~ 'inner_theme_name': 'bootswatch-darkly',
+#~ 'nav_fixed_top': False
 #~ }
 
 # Add any paths that contain custom themes here, relative to this directory.
