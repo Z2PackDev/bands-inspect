@@ -5,12 +5,17 @@ python:
   - "3.5"
   - "3.6"
 
+- install:
+  - pip install .[dev]
+- script:
+  - cd tests
+  - py.test
+
 jobs:
   include:
-    - install:
-      - pip install .[dev]
-      script:
-      - cd tests
-      - py.test
     - stage: compliance
       script: pre-commit run --all-files
+
+stages:
+  - test
+  - compliance
