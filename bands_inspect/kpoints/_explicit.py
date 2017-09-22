@@ -11,6 +11,7 @@ from fsc.export import export
 from ..io._serialize_mapping import subscribe_serialize
 from . import KpointsBase
 
+
 @export
 @subscribe_serialize('kpoints_explicit')
 class KpointsExplicit(KpointsBase, types.SimpleNamespace):
@@ -20,6 +21,7 @@ class KpointsExplicit(KpointsBase, types.SimpleNamespace):
     :param kpoints: List of explicit k-points.
     :type kpoints: list
     """
+
     def __init__(self, kpoints):
         self.kpoints = np.array(kpoints)
 

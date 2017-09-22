@@ -7,6 +7,7 @@ from decorator import decorator
 
 SERIALIZE_MAPPING = {}
 
+
 def subscribe_serialize(type_tag):
     def inner(cls):
         SERIALIZE_MAPPING[type_tag] = cls
@@ -25,4 +26,5 @@ def subscribe_serialize(type_tag):
 
         cls.from_hdf5 = classmethod(check_type_tag(cls.from_hdf5.__func__))
         return cls
+
     return inner

@@ -12,6 +12,7 @@ from fsc.export import export
 from ..io._serialize_mapping import subscribe_serialize
 from . import KpointsBase
 
+
 @export
 @subscribe_serialize('kpoints_mesh')
 class KpointsMesh(KpointsBase, types.SimpleNamespace):
@@ -24,6 +25,7 @@ class KpointsMesh(KpointsBase, types.SimpleNamespace):
     :param offset: Offset added to the k-point values. If nothing is given, the grid is aligned at the :math:`\Gamma` - point.
     :type offset: list
     """
+
     def __init__(self, mesh, offset=None):
         mesh = tuple(int(m) for m in mesh)
         if offset is None:
@@ -33,18 +35,21 @@ class KpointsMesh(KpointsBase, types.SimpleNamespace):
 
         if len(offset) != len(mesh):
             raise ValueError(
-                "Length of 'offset' ({}) does not match the length of 'mesh' ({}).".format(
-                    len(offset), len(mesh)
-                )
+                "Length of 'offset' ({}) does not match the length of 'mesh' ({}).".
+                format(len(offset), len(mesh))
             )
         self.mesh = mesh
         self.offset = offset
 
     @property
     def kpoints_explicit(self):
-        res = np.array(list(itertools.product(*[
-            np.linspace(0, 1, m, endpoint=False) for m in self.mesh
-        ])))
+        res = np.array(
+            list(
+                itertools.product(
+                    *[np.linspace(0, 1, m, endpoint=False) for m in self.mesh]
+                )
+            )
+        )
         res += self.offset
         res %= 1
         res.flags.writeable = False
@@ -56,4 +61,6 @@ class KpointsMesh(KpointsBase, types.SimpleNamespace):
 
     @classmethod
     def from_hdf5(cls, hdf5_handle):
-        return cls(mesh=hdf5_handle['mesh'].value, offset=hdf5_handle['offset'].value)
+        return cls(
+            mesh=hdf5_handle['mesh'].value, offset=hdf5_handle['offset'].value
+        )

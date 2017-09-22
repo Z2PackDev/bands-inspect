@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Author:  Dominik Gresch <greschd@gmx.ch>
-
 import types
 
 import numpy as np
@@ -12,6 +7,7 @@ from ._serializable import Serializable
 from .kpoints import KpointsExplicit, KpointsBase
 from .io import from_hdf5
 from .io._serialize_mapping import subscribe_serialize
+
 
 @export
 @subscribe_serialize('eigenvals_data')
@@ -25,6 +21,7 @@ class EigenvalsData(Serializable, types.SimpleNamespace):
     :param eigenvals: Eigenvalues at each k-point. The outer axis corresponds to the different k-points, and the inner axis corresponds to the different eigenvalues at a given k-point.
     :type eigenvals: 2D array
     """
+
     def __init__(self, *, kpoints, eigenvals):
         if not isinstance(kpoints, KpointsBase):
             kpoints = KpointsExplicit(kpoints)
@@ -32,9 +29,8 @@ class EigenvalsData(Serializable, types.SimpleNamespace):
         eigenvals = np.sort(eigenvals)
         if len(kpoints.kpoints_explicit) != len(eigenvals):
             raise ValueError(
-                "Number of kpoints ({}) does not match the number of eigenvalue lists ({})".format(
-                    len(kpoints.kpoints_explicit), len(eigenvals)
-                )
+                "Number of kpoints ({}) does not match the number of eigenvalue lists ({})".
+                format(len(kpoints.kpoints_explicit), len(eigenvals))
             )
         self.kpoints = kpoints
         self.eigenvals = eigenvals
@@ -50,7 +46,9 @@ class EigenvalsData(Serializable, types.SimpleNamespace):
         return type(self)(kpoints=self.kpoints, eigenvals=new_eigenvals)
 
     @classmethod
-    def from_eigenval_function(cls, *, kpoints, eigenval_function, listable=False):
+    def from_eigenval_function(
+        cls, *, kpoints, eigenval_function, listable=False
+    ):
         """
         Create an instance using a function that calculates the eigenvalues.
 
@@ -65,7 +63,9 @@ class EigenvalsData(Serializable, types.SimpleNamespace):
         if listable:
             eigenvals = eigenval_function(kpoints.kpoints_explicit)
         else:
-            eigenvals = [eigenval_function(k) for k in kpoints.kpoints_explicit]
+            eigenvals = [
+                eigenval_function(k) for k in kpoints.kpoints_explicit
+            ]
         return cls(kpoints=kpoints, eigenvals=eigenvals)
 
     def to_hdf5(self, hdf5_handle):

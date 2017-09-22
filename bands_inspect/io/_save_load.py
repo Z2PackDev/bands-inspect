@@ -10,6 +10,7 @@ from ._serialize_mapping import SERIALIZE_MAPPING
 
 __all__ = ['save', 'load']
 
+
 @export
 def to_hdf5(obj, hdf5_handle):
     """
@@ -22,6 +23,7 @@ def to_hdf5(obj, hdf5_handle):
     """
     obj.to_hdf5(hdf5_handle)
 
+
 @export
 def from_hdf5(hdf5_handle):
     """
@@ -32,6 +34,7 @@ def from_hdf5(hdf5_handle):
     """
     type_tag = hdf5_handle['type_tag'].value
     return SERIALIZE_MAPPING[type_tag].from_hdf5(hdf5_handle)
+
 
 @export
 def to_hdf5_file(obj, hdf5_file):
@@ -46,7 +49,9 @@ def to_hdf5_file(obj, hdf5_file):
     with h5py.File(hdf5_file, 'w') as hf:
         to_hdf5(obj, hf)
 
+
 save = to_hdf5_file
+
 
 @export
 def from_hdf5_file(hdf5_file):
@@ -58,5 +63,6 @@ def from_hdf5_file(hdf5_file):
     """
     with h5py.File(hdf5_file, 'r') as hf:
         return from_hdf5(hf)
+
 
 load = from_hdf5_file

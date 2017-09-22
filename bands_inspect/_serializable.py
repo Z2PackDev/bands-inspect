@@ -9,6 +9,7 @@ import h5py
 
 from .io import from_hdf5_file, to_hdf5_file
 
+
 class Serializable(abc.ABC):
     @abc.abstractmethod
     def to_hdf5(self, hdf5_handle):

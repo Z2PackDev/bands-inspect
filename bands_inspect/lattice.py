@@ -9,6 +9,7 @@ from fsc.export import export
 
 # TODO: move to a separate module
 
+
 @export
 class Lattice:
     def __init__(self, matrix):
@@ -29,8 +30,13 @@ class Lattice:
 
     def get_cartesian_distance(self, fractional_coord_1, fractional_coord_2):
         return la.norm(
-            self.get_cartesian_coords(fractional_coord_1) - self.get_cartesian_coords(fractional_coord_2)
+            self.get_cartesian_coords(fractional_coord_1) -
+            self.get_cartesian_coords(fractional_coord_2)
         )
 
-    def get_reciprocal_cartesian_distance(self, reciprocal_fractional_coord_1, reciprocal_fractional_coord_2):
-        return self.reciprocal_lattice.get_cartesian_distance(reciprocal_fractional_coord_1, reciprocal_fractional_coord_2)
+    def get_reciprocal_cartesian_distance(
+        self, reciprocal_fractional_coord_1, reciprocal_fractional_coord_2
+    ):
+        return self.reciprocal_lattice.get_cartesian_distance(
+            reciprocal_fractional_coord_1, reciprocal_fractional_coord_2
+        )

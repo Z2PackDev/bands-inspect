@@ -14,6 +14,9 @@ with open('./bands_inspect/_version.py', 'r') as f:
     match_expr = "__version__[^'" + '"]+([' + "'" + r'"])([^\1]+)\1'
     version = re.search(match_expr, f.read()).group(2)
 
+extras_require = {'test': ['pytest', 'pytest-cov'], 'dev': ['yapf']}
+extras_require['dev'] += extras_require['test']
+
 setup(
     name='bands-inspect',
     version=version,
@@ -22,7 +25,7 @@ setup(
     author_email='greschd@gmx.ch',
     description=readme,
     install_requires=['numpy', 'scipy', 'matplotlib', 'h5py', 'click', 'decorator', 'fsc.export'],
-    extras_require={'test': ['pytest', 'pytest-cov']},
+    extras_require=extras_require,
     classifiers=[
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Natural Language :: English',

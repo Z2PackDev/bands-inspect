@@ -13,6 +13,7 @@ from ..io import _hdf5_utils
 from ..lattice import Lattice
 from ._base import KpointsBase
 
+
 @export
 @subscribe_serialize('kpoints_path')
 class KpointsPath(KpointsBase):
@@ -20,15 +21,19 @@ class KpointsPath(KpointsBase):
     Defines a k-point path.
 
     """
-    def __init__(self, *, paths, special_points={}, kpoint_distance=1e-3, unit_cell='auto'):
-        self._paths = [
-            [_Vertex(pt, special_points) for pt in single_path]
-            for single_path in paths
-        ]
+
+    def __init__(
+        self,
+        *,
+        paths,
+        special_points={},
+        kpoint_distance=1e-3,
+        unit_cell='auto'
+    ):
+        self._paths = [[_Vertex(pt, special_points) for pt in single_path]
+                       for single_path in paths]
         dimensions = set(
-            pt.dimension
-            for single_path in  self._paths
-            for pt in single_path
+            pt.dimension for single_path in self._paths for pt in single_path
         )
         if len(dimensions) != 1:
             raise ValueError('Inconsistent dimensions: {}'.format(dimensions))
@@ -38,7 +43,10 @@ class KpointsPath(KpointsBase):
         else:
             uc = np.array(unit_cell)
         if uc.shape != (dim, dim):
-            raise ValueError('Inconsistent shape of the unit cell: {}, should be {}'.format(uc.shape, (dim, dim)))
+            raise ValueError(
+                'Inconsistent shape of the unit cell: {}, should be {}'.
+                format(uc.shape, (dim, dim))
+            )
         self._lattice = Lattice(matrix=uc)
         self._kpoint_distance = kpoint_distance
         self._evaluate_paths()
@@ -59,15 +67,18 @@ class KpointsPath(KpointsBase):
             self._evaluate_line(start, end)
 
     def _evaluate_line(self, start, end):
-        dist = self._lattice.get_reciprocal_cartesian_distance(start.frac, end.frac)
+        dist = self._lattice.get_reciprocal_cartesian_distance(
+            start.frac, end.frac
+        )
         npoints = max(int(np.round_(dist / self._kpoint_distance)) + 1, 2)
         steps = np.linspace(0, 1, npoints)[1:]
         kpoints = [(1 - s) * start.frac + s * end.frac for s in steps]
         self._kpoints_explicit.extend(kpoints)
-        self._labels.append(_KpointLabel(
-            index=len(self._kpoints_explicit) - 1,
-            label=end.label
-        ))
+        self._labels.append(
+            _KpointLabel(
+                index=len(self._kpoints_explicit) - 1, label=end.label
+            )
+        )
 
     @property
     def kpoints_explicit(self):
@@ -78,10 +89,8 @@ class KpointsPath(KpointsBase):
         return self._labels
 
     def to_hdf5(self, hdf5_handle):
-        path_labels = [
-            [pt.label for pt in single_path]
-            for single_path in self._paths
-        ]
+        path_labels = [[pt.label for pt in single_path]
+                       for single_path in self._paths]
         _hdf5_utils._nested_list_to_hdf5(
             hdf5_handle.create_group('path_labels'), path_labels, str
         )
@@ -97,8 +106,12 @@ class KpointsPath(KpointsBase):
 
     @classmethod
     def from_hdf5(cls, hdf5_handle):
-        path_labels = _hdf5_utils._nested_list_from_hdf5(hdf5_handle['path_labels'])
-        special_points = _hdf5_utils._dict_from_hdf5(hdf5_handle['special_points'])
+        path_labels = _hdf5_utils._nested_list_from_hdf5(
+            hdf5_handle['path_labels']
+        )
+        special_points = _hdf5_utils._dict_from_hdf5(
+            hdf5_handle['special_points']
+        )
         kpoint_distance = hdf5_handle['kpoint_distance'].value
         unit_cell = hdf5_handle['unit_cell'].value
 
@@ -109,6 +122,7 @@ class KpointsPath(KpointsBase):
             unit_cell=unit_cell
         )
 
+
 class _Vertex:
     def __init__(self, point, special_points):
         self.frac = np.array(special_points.get(point, point))
@@ -117,5 +131,6 @@ class _Vertex:
     @property
     def dimension(self):
         return self.frac.shape[0]
+
 
 _KpointLabel = namedtuple('_KpointLabel', ['index', 'label'])

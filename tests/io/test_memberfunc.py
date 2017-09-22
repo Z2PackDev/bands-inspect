@@ -10,6 +10,7 @@ import numpy as np
 
 from instances import SERIALIZABLE_INSTANCES
 
+
 @pytest.mark.parametrize('instance', SERIALIZABLE_INSTANCES)
 def test_save_load(instance, assert_equal):
     with tempfile.NamedTemporaryFile() as f:
