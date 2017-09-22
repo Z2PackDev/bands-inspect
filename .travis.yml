@@ -5,9 +5,10 @@ python:
   - "3.5"
   - "3.6"
 
-- install:
+install:
   - pip install .[dev]
-- script:
+
+script:
   - cd tests
   - py.test
 
