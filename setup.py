@@ -14,7 +14,10 @@ with open('./bands_inspect/_version.py', 'r') as f:
     match_expr = "__version__[^'" + '"]+([' + "'" + r'"])([^\1]+)\1'
     version = re.search(match_expr, f.read()).group(2)
 
-extras_require = {'test': ['pytest', 'pytest-cov'], 'dev': ['pre-commit']}
+extras_require = {
+    'test': ['pytest', 'pytest-cov'],
+    'dev': ['pre-commit', 'yapf']
+}
 extras_require['dev'] += extras_require['test']
 
 setup(
