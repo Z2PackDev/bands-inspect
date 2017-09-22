@@ -10,9 +10,9 @@ install:
 
 jobs:
   include:
+    - script:
+      - cd tests
+      - py.test
     - stage: compliance
+      python: 3.6
       script: pre-commit run --all-files
-    - stage: test
-      script:
-        - cd tests
-        - py.test
