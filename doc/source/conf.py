@@ -21,6 +21,15 @@ import sphinx_rtd_theme
 on_rtd = os.environ.get('READTHEDOCS') == 'True'
 if on_rtd:
     sys.path.append(os.path.join(__file__, '../../'))
+    from unittest.mock import MagicMock
+
+    class Mock(MagicMock):
+        @classmethod
+        def __getattr__(cls, name):
+            return MagicMock()
+
+    MOCK_MODULES = ['h5py']
+    sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
