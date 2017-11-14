@@ -25,8 +25,10 @@ def plot_ax(
     e_fermi=0.,
     vortex_labels=True,
     energy_labels=True,
-    plot_options={'color': 'k',
-                  'lw': 0.5}
+    plot_options={
+        'color': 'k',
+        'lw': 0.5
+    }
 ):
     ax.plot(eigenvals.eigenvals - e_fermi, **plot_options)
     ax.set_xlim(0, len(eigenvals.eigenvals))

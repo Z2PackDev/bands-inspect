@@ -44,8 +44,9 @@ class KpointsPath(KpointsBase):
             uc = np.array(unit_cell)
         if uc.shape != (dim, dim):
             raise ValueError(
-                'Inconsistent shape of the unit cell: {}, should be {}'.
-                format(uc.shape, (dim, dim))
+                'Inconsistent shape of the unit cell: {}, should be {}'.format(
+                    uc.shape, (dim, dim)
+                )
             )
         self._lattice = Lattice(matrix=uc)
         self._kpoint_distance = kpoint_distance
