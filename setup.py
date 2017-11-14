@@ -16,9 +16,10 @@ with open('./bands_inspect/_version.py', 'r') as f:
 
 extras_require = {
     'test': ['pytest', 'pytest-cov'],
+    'doc': ['sphinx', 'sphinx-rtd-theme'],
     'dev': ['pre-commit', 'yapf']
 }
-extras_require['dev'] += extras_require['test']
+extras_require['dev'] += extras_require['test'] + extras_require['doc']
 
 setup(
     name='bands-inspect',
