@@ -1,14 +1,16 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+"""
+Test for the 'bands-inspect slice_bands' command.
+"""
 
 import tempfile
 
-from bands_inspect._cli import cli
-
-from utils import *
+from utils import *  # pylint: disable=unused-wildcard-import
 
 
-def test_cli_slice_bands(run_command, band_sample):
+def test_cli_slice_bands(run_command, band_sample):  # pylint: disable=redefined-outer-name
+    """
+    Basic test that the slice_bands command runs without error.
+    """
     with tempfile.NamedTemporaryFile() as outfile:
         run_command([
             'slice_bands',

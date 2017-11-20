@@ -1,9 +1,7 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Author:  Dominik Gresch <greschd@gmx.ch>
+"""
+Tests for the functions that calculat the difference between bandstructures.
+"""
 
-import os
 import numpy as np
 import pytest
 
@@ -13,6 +11,9 @@ from bands_inspect.compare import difference as diff
 
 @pytest.fixture
 def simple_eigenvals():
+    """
+    Fixture that creates two different simple bandstructures.
+    """
     ev1 = bi.eigenvals.EigenvalsData(
         kpoints=[[0.1], [0.2]], eigenvals=[[1, 2], [3, 4]]
     )
@@ -23,15 +24,15 @@ def simple_eigenvals():
 
 
 def test_zero_diff(sample):
-    ev = bi.io.load(sample('silicon_bands.hdf5'))
-    assert np.isclose(diff.calculate(ev, ev), 0)
+    eigenvals = bi.io.load(sample('silicon_bands.hdf5'))
+    assert np.isclose(diff.calculate(eigenvals, eigenvals), 0)
 
 
-def test_nonzero_diff(simple_eigenvals):
+def test_nonzero_diff(simple_eigenvals):  # pylint: disable=redefined-outer-name
     assert np.isclose(diff.calculate(*simple_eigenvals), 1 / 4)
 
 
-def test_energy_window_1(simple_eigenvals):
+def test_energy_window_1(simple_eigenvals):  # pylint: disable=redefined-outer-name
     assert np.isclose(
         diff.calculate(
             *simple_eigenvals, weight_eigenval=diff.energy_window(0, 3.5)
@@ -39,7 +40,7 @@ def test_energy_window_1(simple_eigenvals):
     )
 
 
-def test_energy_window_2(simple_eigenvals):
+def test_energy_window_2(simple_eigenvals):  # pylint: disable=redefined-outer-name
     assert np.isclose(
         diff.calculate(
             *simple_eigenvals, weight_eigenval=diff.energy_window(3.5, 5)
@@ -47,7 +48,7 @@ def test_energy_window_2(simple_eigenvals):
     )
 
 
-def test_energy_window_3(simple_eigenvals):
+def test_energy_window_3(simple_eigenvals):  # pylint: disable=redefined-outer-name
     assert np.isclose(
         diff.calculate(
             *simple_eigenvals, weight_eigenval=diff.energy_window(2.9, 4.1)
@@ -55,7 +56,7 @@ def test_energy_window_3(simple_eigenvals):
     )
 
 
-def test_energy_window_4(simple_eigenvals):
+def test_energy_window_4(simple_eigenvals):  # pylint: disable=redefined-outer-name
     assert np.isclose(
         diff.calculate(
             *simple_eigenvals,

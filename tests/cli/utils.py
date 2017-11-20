@@ -1,5 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+"""
+Helper fixtures for running CLI tests.
+"""
 
 import pytest
 from click.testing import CliRunner

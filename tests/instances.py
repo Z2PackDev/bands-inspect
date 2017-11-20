@@ -1,11 +1,9 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Author:  Dominik Gresch <greschd@gmx.ch>
+"""
+Defines instances of the bands-inspect data classes.
+"""
 
-import bands_inspect as bi
-from bands_inspect.kpoints import *
-from bands_inspect.eigenvals import *
+from bands_inspect.kpoints import *  # pylint: disable=unused-wildcard-import
+from bands_inspect.eigenvals import *  # pylint: disable=unused-wildcard-import
 
 KPOINTS_INSTANCES = [
     KpointsExplicit([[0.1, 0.5, 0.2], [0.9, 0.3, 0.5]]),

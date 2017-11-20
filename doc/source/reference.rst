@@ -14,7 +14,8 @@ Defining k-points
 Eigenvalue Data
 ---------------
 
-.. autoclass:: bands_inspect.EigenvalsData
+.. automodule:: bands_inspect.eigenvals
+    :members:
     :imported-members:
     :inherited-members:
 

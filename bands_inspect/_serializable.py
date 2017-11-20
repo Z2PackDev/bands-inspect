@@ -1,16 +1,17 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Author:  Dominik Gresch <greschd@gmx.ch>
+"""
+Base classes for serializing bands-inspect data types.
+"""
 
 import abc
-
-import h5py
 
 from .io import from_hdf5_file, to_hdf5_file
 
 
 class Serializable(abc.ABC):
+    """
+    Base class for data which is serializable to the HDF5 format.
+    """
+
     @abc.abstractmethod
     def to_hdf5(self, hdf5_handle):
         """
@@ -20,7 +21,7 @@ class Serializable(abc.ABC):
 
     @classmethod
     @abc.abstractmethod
-    def from_hdf5(self, hdf5_handle):
+    def from_hdf5(cls, hdf5_handle):
         """
         Deserializes the object stored in HDF5 format.
         """

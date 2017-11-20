@@ -1,40 +1,50 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Author:  Dominik Gresch <greschd@gmx.ch>
+"""
+Defines functions to plot bandstructures.
+"""
 
-import numpy as np
-import scipy.linalg as la
-import matplotlib.pyplot as plt
+import decorator
 
-from .kpoints import KpointsPath
 from .kpoints._path import _KpointLabel
 
 
-def plot(eigenvals, *, save_file, figsize=[5, 4], **kwargs):
-    fig, ax = plt.subplots(figsize=figsize)
-    plot_ax(eigenvals, ax=ax, **kwargs)
-    plt.savefig(save_file, bbox_inches='tight')
+@decorator.decorator
+def _plot(func, data, *, ax=None, **kwargs):  # pylint: disable=missing-docstring,invalid-name
+    import matplotlib.pyplot as plt
+
+    if ax is None:
+        return_fig = True
+        fig, ax = plt.subplots()  # pylint: disable=invalid-name
+    else:
+        return_fig = False
+
+    func(data, ax=ax, **kwargs)
+
+    if return_fig:
+        return fig
 
 
-def plot_ax(
-    eigenvals,
+@_plot
+def eigenvals(
+    eigenvals,  # pylint:disable=redefined-outer-name
     *,
-    ax,
+    ax=None,  # pylint:disable=invalid-name
     ylim=None,
     e_fermi=0.,
-    vortex_labels=True,
+    vertex_labels=True,
     energy_labels=True,
     plot_options={
-        'color': 'k',
-        'lw': 0.5
+        'color': 'C0',
+        'lw': 0.8
     }
 ):
+    """
+    Plot the bandstructure of a given :class:`.EigenvalsData` object.
+    """
     ax.plot(eigenvals.eigenvals - e_fermi, **plot_options)
-    ax.set_xlim(0, len(eigenvals.eigenvals))
+    ax.set_xlim(0, len(eigenvals.eigenvals) - 1)
     if ylim is not None:
         ax.set_ylim(ylim)
-    if vortex_labels and hasattr(eigenvals.kpoints, 'labels'):
+    if vertex_labels and hasattr(eigenvals.kpoints, 'labels'):
         labels = _merge_labels(eigenvals.kpoints.labels)
         ax.set_xticks([l.index for l in labels])
         ax.set_xticklabels([l.label for l in labels])
@@ -48,8 +58,11 @@ def plot_ax(
 
 
 def _merge_labels(labels):
+    """
+    Merge labels of neighbouring k-points, separating them by a ' | '.
+    """
     new_labels = [labels[0]]
-    for l1, l2, l3 in zip(labels, labels[1:], labels[2:]):
+    for l1, l2, l3 in zip(labels, labels[1:], labels[2:]):  # pylint: disable=invalid-name
         if l2.index - l1.index == 1:
             continue
         elif l3.index - l2.index == 1:

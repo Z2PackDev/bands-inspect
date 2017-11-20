@@ -1,7 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Author:  Dominik Gresch <greschd@gmx.ch>
+"""
+Defines functions to compare two bandstructures by calculating their difference, with different averaging and weighting methods.
+"""
 
 import numpy as np
 from fsc.export import export
@@ -17,7 +16,24 @@ def calculate(
     symmetric_eigenval_weights=True,
     weight_kpoint=lambda kpts: np.ones(np.array(kpts).shape[0])
 ):
+    """
+    Calculate the difference between two bandstructures.
 
+    :param eigenvals1: The first set of eigenvalues.
+    :type eigenvals1: EigenvalsData
+
+    :param eigenvals2: The second set of eigenvalues.
+    :type eigenvals2: EigenvalsData
+
+    :param avg_func: Function which is used to average the difference between the two sets of eigenvalues.
+
+    :param weight_eigenval: A function which takes the eigenvalues as input, and returns the corresponding weights.
+
+    :param symmetric_eigenval_weights: Determines whether both sets of eigenvalues are used to calculate weights, or just the first one.
+    :type symmetric_eigenval_weights: bool
+
+    :param weight_kpoint: A function which takes the k-points as input, and returns the corresponding weights.
+    """
     kpoints = np.array(eigenvals1.kpoints)
     if not np.allclose(kpoints, np.array(eigenvals2.kpoints)):
         raise ValueError(
@@ -40,6 +56,15 @@ def calculate(
 
 @export
 def energy_window(lower, upper):
+    """
+    Creates an eigenvalue weighting function that only takes into account eigenvalues in a certain energy window.
+
+    :param lower: Lower bound of the energy window.
+    :type lower: float
+
+    :param upper: Upper bound of the energy window.
+    :type upper: float
+    """
     lower, upper = sorted([lower, upper])
 
     def weight_eigenval(eigenvals):

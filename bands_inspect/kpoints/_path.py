@@ -1,7 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Author:  Dominik Gresch <greschd@gmx.ch>
+"""
+Defines the data class for a k-point path.
+"""
 
 from collections import namedtuple
 
@@ -19,7 +18,6 @@ from ._base import KpointsBase
 class KpointsPath(KpointsBase):
     """
     Defines a k-point path.
-
     """
 
     def __init__(
@@ -38,10 +36,10 @@ class KpointsPath(KpointsBase):
         if len(dimensions) != 1:
             raise ValueError('Inconsistent dimensions: {}'.format(dimensions))
         dim = dimensions.pop()
-        if unit_cell is 'auto':
-            uc = np.eye(dim)
+        if unit_cell is 'auto':  # pylint: disable=literal-comparison
+            uc = np.eye(dim)  # pylint: disable=invalid-name
         else:
-            uc = np.array(unit_cell)
+            uc = np.array(unit_cell)  # pylint: disable=invalid-name
         if uc.shape != (dim, dim):
             raise ValueError(
                 'Inconsistent shape of the unit cell: {}, should be {}'.format(
@@ -53,6 +51,9 @@ class KpointsPath(KpointsBase):
         self._evaluate_paths()
 
     def _evaluate_paths(self):
+        """
+        Evaluate all paths and calculate the corresponding explicit k-points.
+        """
         self._kpoints_explicit = []
         self._labels = []
         for single_path in self._paths:
@@ -61,13 +62,23 @@ class KpointsPath(KpointsBase):
         self._kpoints_explicit.flags.writeable = False
 
     def _evaluate_single_path(self, single_path):
-        N = len(self._kpoints_explicit)
+        """
+        Evaluate a single path (connected line of k-points), and calculate the explicit k-points.
+        """
+        num_kpoints_initial = len(self._kpoints_explicit)
         self._kpoints_explicit.append(single_path[0].frac)
-        self._labels.append(_KpointLabel(index=N, label=single_path[0].label))
+        self._labels.append(
+            _KpointLabel(
+                index=num_kpoints_initial, label=single_path[0].label
+            )
+        )
         for start, end in zip(single_path, single_path[1:]):
             self._evaluate_line(start, end)
 
     def _evaluate_line(self, start, end):
+        """
+        Calculate the explicit k-points between two vertices which are part of the path.
+        """
         dist = self._lattice.get_reciprocal_cartesian_distance(
             start.frac, end.frac
         )
@@ -92,14 +103,14 @@ class KpointsPath(KpointsBase):
     def to_hdf5(self, hdf5_handle):
         path_labels = [[pt.label for pt in single_path]
                        for single_path in self._paths]
-        _hdf5_utils._nested_list_to_hdf5(
+        _hdf5_utils.nested_list_to_hdf5(
             hdf5_handle.create_group('path_labels'), path_labels, str
         )
         special_points = {
             pt.label: pt.frac
             for special_path in self._paths for pt in special_path
         }
-        _hdf5_utils._dict_to_hdf5(
+        _hdf5_utils.dict_to_hdf5(
             hdf5_handle.create_group('special_points'), special_points
         )
         hdf5_handle['kpoint_distance'] = self._kpoint_distance
@@ -107,10 +118,10 @@ class KpointsPath(KpointsBase):
 
     @classmethod
     def from_hdf5(cls, hdf5_handle):
-        path_labels = _hdf5_utils._nested_list_from_hdf5(
+        path_labels = _hdf5_utils.nested_list_from_hdf5(
             hdf5_handle['path_labels']
         )
-        special_points = _hdf5_utils._dict_from_hdf5(
+        special_points = _hdf5_utils.dict_from_hdf5(
             hdf5_handle['special_points']
         )
         kpoint_distance = hdf5_handle['kpoint_distance'].value
@@ -125,6 +136,10 @@ class KpointsPath(KpointsBase):
 
 
 class _Vertex:
+    """
+    Defines a vertex in the k-point path.
+    """
+
     def __init__(self, point, special_points):
         self.frac = np.array(special_points.get(point, point))
         self.label = str(point)

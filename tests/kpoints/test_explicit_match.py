@@ -1,13 +1,11 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Author:  Dominik Gresch <greschd@gmx.ch>
+"""
+Defines tests which check that the explicit k-points match an expected result.
+"""
 
 import pytest
-import numpy as np
 from numpy.testing import assert_equal
 
-from bands_inspect.kpoints import *
+from bands_inspect.kpoints import *  # pylint: disable=unused-wildcard-import
 
 VERTICES = {'a': [0, 0], 'b': [0.5, 0.5], 'c': [0.5, 0]}
 
@@ -47,4 +45,7 @@ INSTANCES_EXPLICIT_KPOINTS = [
 
 @pytest.mark.parametrize('instance, reference', INSTANCES_EXPLICIT_KPOINTS)
 def test_kpoints_explicit(instance, reference):
+    """
+    Test that '.kpoints_explicit' matches the expected reference result.
+    """
     assert_equal(instance.kpoints_explicit, reference)

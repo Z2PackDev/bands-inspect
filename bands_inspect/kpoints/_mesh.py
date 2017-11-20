@@ -1,7 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Author:  Dominik Gresch <greschd@gmx.ch>
+"""
+Defines the data class for a regular k-point mesh.
+"""
 
 import types
 import itertools
@@ -16,7 +15,7 @@ from . import KpointsBase
 @export
 @subscribe_serialize('kpoints_mesh')
 class KpointsMesh(KpointsBase, types.SimpleNamespace):
-    """
+    r"""
     Defines k-points on a regular mesh.
 
     :param mesh: Defines the grid size (number of different k-point values) for each dimension.

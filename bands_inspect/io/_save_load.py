@@ -1,7 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Author:  Dominik Gresch <greschd@gmx.ch>
+"""
+Defines free functions to serialize / deserialize bands-inspect objects to HDF5.
+"""
 
 import h5py
 from fsc.export import export
@@ -46,11 +45,11 @@ def to_hdf5_file(obj, hdf5_file):
     :param hdf5_file: Path of the file.
     :type hdf5_file: str
     """
-    with h5py.File(hdf5_file, 'w') as hf:
-        to_hdf5(obj, hf)
+    with h5py.File(hdf5_file, 'w') as f:
+        to_hdf5(obj, f)
 
 
-save = to_hdf5_file
+save = to_hdf5_file  # pylint: disable=invalid-name
 
 
 @export
@@ -61,8 +60,8 @@ def from_hdf5_file(hdf5_file):
     :param hdf5_file: Path of the file.
     :type hdf5_file: str
     """
-    with h5py.File(hdf5_file, 'r') as hf:
-        return from_hdf5(hf)
+    with h5py.File(hdf5_file, 'r') as f:
+        return from_hdf5(f)
 
 
-load = from_hdf5_file
+load = from_hdf5_file  # pylint: disable=invalid-name

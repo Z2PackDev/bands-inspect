@@ -1,9 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Author:  Dominik Gresch <greschd@gmx.ch>
-# Date:    30.06.2016 15:11:19 CEST
-# File:    parameters.py
+"""
+Defines helper parameters / constants for the test run.
+"""
 
 from os.path import abspath, dirname, join
 

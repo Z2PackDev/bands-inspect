@@ -1,38 +1,40 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+"""
+Usage: pip install .[test,doc,dev]
+"""
 
 import re
+import sys
+
 from setuptools import setup, find_packages
 
-import sys
 if sys.version_info < (3, 4):
     raise 'must use Python version 3.4 or higher'
 
-readme = """Utilities for creating, comparing and plotting bandstructures of materials."""
+README = """Utilities for creating, comparing and plotting bandstructures of materials."""
 
 with open('./bands_inspect/_version.py', 'r') as f:
-    match_expr = "__version__[^'" + '"]+([' + "'" + r'"])([^\1]+)\1'
-    version = re.search(match_expr, f.read()).group(2)
+    MATCH_EXPR = "__version__[^'" + '"]+([' + "'" + r'"])([^\1]+)\1'
+    VERSION = re.search(MATCH_EXPR, f.read()).group(2)
 
-extras_require = {
+EXTRAS_REQUIRE = {
     'test': ['pytest', 'pytest-cov'],
     'doc': ['sphinx', 'sphinx-rtd-theme'],
-    'dev': ['pre-commit', 'yapf']
+    'dev': ['pre-commit', 'yapf', 'prospector']
 }
-extras_require['dev'] += extras_require['test'] + extras_require['doc']
+EXTRAS_REQUIRE['dev'] += EXTRAS_REQUIRE['test'] + EXTRAS_REQUIRE['doc']
 
 setup(
     name='bands-inspect',
-    version=version,
+    version=VERSION,
     url='http://z2pack.ethz.ch/bands-inspect',
     author='Dominik Gresch',
     author_email='greschd@gmx.ch',
-    description=readme,
+    description=README,
     install_requires=[
         'numpy', 'scipy', 'matplotlib', 'h5py', 'click', 'decorator',
         'fsc.export'
     ],
-    extras_require=extras_require,
+    extras_require=EXTRAS_REQUIRE,
     classifiers=[
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Natural Language :: English', 'Operating System :: Unix',
@@ -49,8 +51,5 @@ setup(
         bands-inspect=bands_inspect._cli:cli
     ''',
     license='GPL',
-    packages=[
-        'bands_inspect', 'bands_inspect.kpoints', 'bands_inspect.io',
-        'bands_inspect.compare'
-    ]
+    packages=find_packages()
 )

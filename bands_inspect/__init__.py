@@ -1,7 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Author:  Dominik Gresch <greschd@gmx.ch>
+"""
+A tool for modifying, comparing and plotting electronic bandstructures.
+"""
 
 from ._version import __version__
 

@@ -1,16 +1,16 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+"""
+Tests for the 'bands-inspect difference' command.
+"""
 
-import pytest
 import numpy as np
-from click.testing import CliRunner
 
-from bands_inspect._cli import cli
-
-from utils import *
+from utils import *  # pylint: disable=unused-wildcard-import
 
 
-def test_cli_difference(run_command, band_sample):
+def test_cli_difference(run_command, band_sample):  # pylint: disable=redefined-outer-name
+    """
+    Test the difference command on two identical bandstructures.
+    """
     run = run_command([
         'difference',
         band_sample,
@@ -19,7 +19,10 @@ def test_cli_difference(run_command, band_sample):
     assert np.isclose(float(run.output), 0)
 
 
-def test_cli_difference_energy_bands(run_command, band_sample):
+def test_cli_difference_energy_window(run_command, band_sample):  # pylint: disable=redefined-outer-name,invalid-name
+    """
+    Test the difference command on two identical bandstructures, with the energy-window option.
+    """
     run = run_command([
         'difference',
         '--energy-window',

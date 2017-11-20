@@ -1,7 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Author:  Dominik Gresch <greschd@gmx.ch>
+"""
+Defines the bands-inspect CLI.
+"""
 
 import click
 from . import io
@@ -19,6 +18,9 @@ def cli():
 )
 @click.option('--energy-window', nargs=2, type=float, required=False)
 def difference(eigenval_files, energy_window):
+    """
+    Calculate the difference between two bandstructures.
+    """
     ev1, ev2 = [io.load(filename) for filename in eigenval_files]
 
     kwargs = {}
@@ -38,6 +40,9 @@ def difference(eigenval_files, energy_window):
 )
 @click.option('--output', '-o', type=click.Path(dir_okay=False))
 @click.argument('slice_idx', nargs=-1, type=int)
-def slice_bands(input, output, slice_idx):
-    ev = io.load(input)
-    io.save(ev.slice_bands(slice_idx), output)
+def slice_bands(input, output, slice_idx):  # pylint: disable=redefined-builtin
+    """
+    Modify a bandstructure by selecting/re-arranging specific bands.
+    """
+    eigenvals = io.load(input)
+    io.save(eigenvals.slice_bands(slice_idx), output)

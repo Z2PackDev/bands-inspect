@@ -1,9 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# Author:  Dominik Gresch <greschd@gmx.ch>
-# Date:    18.02.2016 18:07:11 MST
-# File:    conftest.py
+"""
+Configuration file for the pytest tests.
+"""
 
 import os
 import json
@@ -21,14 +18,14 @@ import parameters
 @pytest.fixture
 def test_name(request):
     """Returns module_name.function_name for a given test"""
-    return request.module.__name__ + '/' + request._parent_request._pyfuncitem.name
+    return request.module.__name__ + '/' + request._parent_request._pyfuncitem.name  # pylint: disable=protected-access
 
 
 @pytest.fixture
-def compare_data(request, test_name, scope="session"):
+def compare_data(request, test_name, scope="session"):  # pylint: disable=unused-argument,redefined-outer-name
     """Returns a function which either saves some data to a file or (if that file exists already) compares it to pre-existing data using a given comparison function."""
 
-    def inner(compare_fct, data, tag=None):
+    def inner(compare_fct, data, tag=None):  # pylint: disable=missing-docstring
         full_name = test_name + (tag or '')
 
         # get rid of json-specific quirks
@@ -47,12 +44,19 @@ def compare_data(request, test_name, scope="session"):
 
 
 @pytest.fixture
-def compare_equal(compare_data):
+def compare_equal(compare_data):  # pylint: disable=redefined-outer-name
+    """
+    Returns a function which checks that a given data is equal to the stored reference.
+    """
     return lambda data, tag=None: compare_data(lambda x, y: x == y, data, tag)
 
 
 @pytest.fixture
 def assert_equal():
+    """
+    Returns a function which checks that two bands-inspect object instances are equal.
+    """
+
     def inner(obj1, obj2):
         if isinstance(obj1, bi.kpoints.KpointsBase):
             np.testing.assert_equal(

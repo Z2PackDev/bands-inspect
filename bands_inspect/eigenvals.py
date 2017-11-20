@@ -1,3 +1,7 @@
+"""
+Defines the data container for eigenvalue data (bandstructures).
+"""
+
 import types
 
 import numpy as np
