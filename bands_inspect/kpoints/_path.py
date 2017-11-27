@@ -18,6 +18,18 @@ from ._base import KpointsBase
 class KpointsPath(KpointsBase):
     """
     Defines a k-point path.
+
+    :param paths: List of paths. Each path is a list of special points.
+    :type paths: list
+
+    :param special_points: Mapping of special k-points. The key is the identifier of the special k-point, and the value is its position in reduced coordinates.
+    :type special_points: dict
+
+    :param kpoint_distance: Approximate distance between two neighbouring k-points along the path.
+    :type kpoint_distance: float
+
+    :param unit_cell: Unit cell of the material. The basis vectors are given as rows in a matrix.
+    :type unit_cell: array
     """
 
     def __init__(
