@@ -58,7 +58,7 @@ def slice_bands(input, output, slice_idx):  # pylint: disable=redefined-builtin
     '-o',
     type=click.Path(exists=False, dir_okay=False),
     help='Output file for the plot.',
-    required=True
+    default='plot.pdf'
 )
 @click.argument(
     'eigenvals_files',
