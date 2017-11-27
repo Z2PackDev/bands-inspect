@@ -2,6 +2,7 @@
 Usage: pip install .[test,doc,dev]
 """
 
+import os
 import re
 import sys
 
@@ -22,6 +23,9 @@ EXTRAS_REQUIRE = {
     'dev': ['pre-commit', 'yapf', 'prospector']
 }
 EXTRAS_REQUIRE['dev'] += EXTRAS_REQUIRE['test'] + EXTRAS_REQUIRE['doc']
+INSTALL_REQUIRES = ['click', 'decorator', 'fsc.export']
+if os.environ.get('READTHEDOCS') != 'True':
+    INSTALL_REQUIRES += ['numpy', 'scipy', 'matplotlib', 'h5py']
 
 setup(
     name='bands-inspect',
@@ -30,10 +34,7 @@ setup(
     author='Dominik Gresch',
     author_email='greschd@gmx.ch',
     description=README,
-    install_requires=[
-        'numpy', 'scipy', 'matplotlib', 'h5py', 'click', 'decorator',
-        'fsc.export'
-    ],
+    install_requires=INSTALL_REQUIRES,
     extras_require=EXTRAS_REQUIRE,
     classifiers=[
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',

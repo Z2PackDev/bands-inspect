@@ -21,8 +21,7 @@ import sphinx_rtd_theme
 on_rtd = os.environ.get('READTHEDOCS') == 'True'
 if on_rtd:
     sys.path.append(os.path.abspath(os.path.join(__file__, '../../')))
-    print(os.path.join(__file__, '../../'))
-    print(os.path.abspath(os.path.join(__file__, '../../')))
+    raise ValueError(os.path.abspath(os.path.join(__file__, '../../')))
     from unittest.mock import MagicMock
 
     class Mock(MagicMock):
