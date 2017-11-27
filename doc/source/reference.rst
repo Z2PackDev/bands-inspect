@@ -19,6 +19,14 @@ Eigenvalue Data
     :imported-members:
     :inherited-members:
 
+Plotting
+--------
+
+.. automodule:: bands_inspect.plot
+    :members:
+    :imported-members:
+    :inherited-members:
+
 Saving and Loading
 ------------------
 
