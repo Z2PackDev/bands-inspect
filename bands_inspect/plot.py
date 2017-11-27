@@ -48,6 +48,7 @@ def eigenvals(
         labels = _merge_labels(eigenvals.kpoints.labels)
         ax.set_xticks([l.index for l in labels])
         ax.set_xticklabels([l.label for l in labels])
+        ax.xaxis.grid(True)
     else:
         ax.set_xticks([])
     if energy_labels:
