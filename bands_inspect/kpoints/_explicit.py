@@ -6,13 +6,15 @@ import types
 
 import numpy as np
 from fsc.export import export
+from fsc.hdf5_io import subscribe_hdf5
 
-from ..io._serialize_mapping import subscribe_serialize
 from . import KpointsBase
 
 
 @export
-@subscribe_serialize('kpoints_explicit')
+@subscribe_hdf5(
+    'bands_inspect.kpoints_explicit', extra_tags=('kpoints_explicit', )
+)
 class KpointsExplicit(KpointsBase, types.SimpleNamespace):
     """
     Defines an explicit set of k-points.

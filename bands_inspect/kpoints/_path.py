@@ -6,15 +6,15 @@ from collections import namedtuple
 
 import numpy as np
 from fsc.export import export
+from fsc.hdf5_io import subscribe_hdf5
 
-from ..io._serialize_mapping import subscribe_serialize
 from ..io import _hdf5_utils
 from ..lattice import Lattice
 from ._base import KpointsBase
 
 
 @export
-@subscribe_serialize('kpoints_path')
+@subscribe_hdf5('bands_inspect.kpoints_path', extra_tags=('kpoints_path', ))
 class KpointsPath(KpointsBase):
     """
     Defines a k-point path.

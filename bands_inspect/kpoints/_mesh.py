@@ -7,13 +7,13 @@ import itertools
 
 import numpy as np
 from fsc.export import export
+from fsc.hdf5_io import subscribe_hdf5
 
-from ..io._serialize_mapping import subscribe_serialize
 from . import KpointsBase
 
 
 @export
-@subscribe_serialize('kpoints_mesh')
+@subscribe_hdf5('bands_inspect.kpoints_mesh', extra_tags=('kpoints_mesh', ))
 class KpointsMesh(KpointsBase, types.SimpleNamespace):
     r"""
     Defines k-points on a regular mesh.

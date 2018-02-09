@@ -6,16 +6,17 @@ import types
 
 import numpy as np
 from fsc.export import export
+from fsc.hdf5_io import HDF5Enabled, subscribe_hdf5
 
-from ._serializable import Serializable
 from .kpoints import KpointsExplicit, KpointsBase
 from .io import from_hdf5
-from .io._serialize_mapping import subscribe_serialize
 
 
 @export
-@subscribe_serialize('eigenvals_data')
-class EigenvalsData(Serializable, types.SimpleNamespace):
+@subscribe_hdf5(
+    'bands_inspect.eigenvals_data', extra_tags=('eigenvals_data', )
+)
+class EigenvalsData(HDF5Enabled, types.SimpleNamespace):
     """
     Data container for the eigenvalues at a given set of k-points. The eigenvalues are automatically sorted by value.
 

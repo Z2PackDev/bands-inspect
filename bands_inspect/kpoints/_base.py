@@ -5,12 +5,11 @@ Defines the base class for k-point data classes.
 import abc
 
 from fsc.export import export
-
-from .._serializable import Serializable
+from fsc.hdf5_io import HDF5Enabled
 
 
 @export
-class KpointsBase(Serializable):
+class KpointsBase(HDF5Enabled):
     """
     Base class for classes defining sets of k-points.
     """
