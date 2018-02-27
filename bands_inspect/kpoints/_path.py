@@ -6,7 +6,7 @@ from collections import namedtuple
 
 import numpy as np
 from fsc.export import export
-from fsc.hdf5_io import subscribe_hdf5
+from fsc.hdf5_io import subscribe_hdf5, to_hdf5, from_hdf5
 
 from ..io import _hdf5_utils
 from ..lattice import Lattice
@@ -122,9 +122,7 @@ class KpointsPath(KpointsBase):
             pt.label: pt.frac
             for special_path in self._paths for pt in special_path
         }
-        _hdf5_utils.dict_to_hdf5(
-            hdf5_handle.create_group('special_points'), special_points
-        )
+        to_hdf5(special_points, hdf5_handle.create_group('special_points'))
         hdf5_handle['kpoint_distance'] = self._kpoint_distance
         hdf5_handle['unit_cell'] = self._lattice.matrix
 
@@ -133,9 +131,7 @@ class KpointsPath(KpointsBase):
         path_labels = _hdf5_utils.nested_list_from_hdf5(
             hdf5_handle['path_labels']
         )
-        special_points = _hdf5_utils.dict_from_hdf5(
-            hdf5_handle['special_points']
-        )
+        special_points = from_hdf5(hdf5_handle['special_points'])
         kpoint_distance = hdf5_handle['kpoint_distance'].value
         unit_cell = hdf5_handle['unit_cell'].value
 

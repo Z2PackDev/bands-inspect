@@ -21,15 +21,3 @@ def nested_list_from_hdf5(hdf5_handle):
     for idx in sorted(hdf5_handle, key=int):
         res.append(list(hdf5_handle[idx].value))
     return res
-
-
-def dict_to_hdf5(hdf5_handle, value):
-    for key, val in value.items():
-        hdf5_handle[key] = val
-
-
-def dict_from_hdf5(hdf5_handle):
-    res = dict()
-    for key in hdf5_handle:
-        res[key] = hdf5_handle[key].value
-    return res
