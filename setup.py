@@ -52,5 +52,5 @@ setup(
         bands-inspect=bands_inspect._cli:cli
     ''',
     license='GPL',
-    packages=find_packages()
+    packages=find_packages() + ['bands_inspect.io._legacy']
 )
