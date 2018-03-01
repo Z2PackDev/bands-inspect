@@ -8,7 +8,7 @@ from .kpoints._path import _KpointLabel
 
 
 @decorator.decorator
-def _plot(func, data, *, ax=None, **kwargs):  # pylint: disable=missing-docstring,invalid-name
+def _plot(func, data, *, ax=None, **kwargs):  # pylint: disable=missing-docstring,invalid-name,inconsistent-return-statements
     import matplotlib.pyplot as plt
 
     if ax is None:

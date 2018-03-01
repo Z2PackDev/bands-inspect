@@ -57,7 +57,7 @@ def assert_equal():
     Returns a function which checks that two bands-inspect object instances are equal.
     """
 
-    def inner(obj1, obj2):
+    def inner(obj1, obj2):  # pylint: disable=missing-docstring
         if isinstance(obj1, bi.kpoints.KpointsBase):
             np.testing.assert_equal(
                 obj1.kpoints_explicit, obj2.kpoints_explicit
@@ -75,6 +75,10 @@ def assert_equal():
 
 @pytest.fixture
 def sample():
+    """
+    Returns the absolute path of the sample with a given name.
+    """
+
     def inner(name):
         return os.path.join(parameters.SAMPLES_DIR, name)
 

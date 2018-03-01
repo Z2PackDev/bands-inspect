@@ -3,7 +3,7 @@ Defines instances of the bands-inspect data classes.
 """
 
 from bands_inspect.kpoints import *  # pylint: disable=unused-wildcard-import
-from bands_inspect.eigenvals import *  # pylint: disable=unused-wildcard-import
+from bands_inspect.eigenvals import *
 
 KPOINTS_INSTANCES = [
     KpointsExplicit([[0.1, 0.5, 0.2], [0.9, 0.3, 0.5]]),

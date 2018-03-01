@@ -10,6 +10,10 @@ from bands_inspect._cli import cli
 
 @pytest.fixture
 def run_command():
+    """
+    Invoke the CLI with the given arguments.
+    """
+
     def inner(args):
         return CliRunner().invoke(cli, args, catch_exceptions=False)
 
@@ -18,4 +22,7 @@ def run_command():
 
 @pytest.fixture
 def band_sample(sample):
+    """
+    Fixture which returns a bands sample file.
+    """
     return sample('silicon_bands.hdf5')
