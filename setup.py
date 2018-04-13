@@ -11,7 +11,8 @@ from setuptools import setup, find_packages
 if sys.version_info < (3, 4):
     raise 'must use Python version 3.4 or higher'
 
-README = """Utilities for creating, comparing and plotting bandstructures of materials."""
+with open('README.md', 'r') as f:
+    README = f.read()
 
 with open('./bands_inspect/_version.py', 'r') as f:
     MATCH_EXPR = "__version__[^'" + '"]+([' + "'" + r'"])([^\1]+)\1'
@@ -33,7 +34,9 @@ setup(
     url='http://z2pack.ethz.ch/bands-inspect',
     author='Dominik Gresch',
     author_email='greschd@gmx.ch',
-    description=README,
+    description=
+    """Utilities for creating, comparing and plotting bandstructures of materials.""",
+    long_description=README,
     install_requires=INSTALL_REQUIRES,
     extras_require=EXTRAS_REQUIRE,
     classifiers=[
