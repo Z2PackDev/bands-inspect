@@ -34,3 +34,10 @@ Saving and Loading
     :members:
     :imported-members:
     :inherited-members:
+
+Command line interface
+----------------------
+
+.. click:: bands_inspect._cli:cli
+    :prog: bands-inspect
+    :show-nested:

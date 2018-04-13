@@ -47,11 +47,8 @@ import bands_inspect
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.todo',
-    'sphinx.ext.autodoc',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.intersphinx',
+    'sphinx.ext.todo', 'sphinx.ext.autodoc', 'sphinx.ext.mathjax',
+    'sphinx.ext.viewcode', 'sphinx.ext.intersphinx', 'sphinx_click.ext'
 ]
 
 intersphinx_mapping = {
@@ -60,7 +57,7 @@ intersphinx_mapping = {
     'h5py': ('http://docs.h5py.org/en/latest', None),
 }
 
-nitpick_ignore = [('py:obj', '')]
+nitpick_ignore = [('py:obj', ''), ('py:obj', '2D array')]
 
 todo_include_todos = True
 

@@ -19,8 +19,8 @@ with open('./bands_inspect/_version.py', 'r') as f:
 
 EXTRAS_REQUIRE = {
     'test': ['pytest', 'pytest-cov'],
-    'doc': ['sphinx', 'sphinx-rtd-theme'],
-    'dev': ['pre-commit', 'yapf', 'prospector']
+    'doc': ['sphinx', 'sphinx-rtd-theme', 'sphinx-click'],
+    'dev': ['pre-commit', 'yapf==0.21.0', 'prospector']
 }
 EXTRAS_REQUIRE['dev'] += EXTRAS_REQUIRE['test'] + EXTRAS_REQUIRE['doc']
 INSTALL_REQUIRES = ['click', 'decorator', 'fsc.export']
