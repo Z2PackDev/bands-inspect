@@ -1,3 +1,4 @@
 fsc.export
+fsc.hdf5-io
 click
 decorator
