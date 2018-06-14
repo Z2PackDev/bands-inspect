@@ -1,7 +1,7 @@
 .. _home:
 
 bands-inspect
-===================
+=============
 
 This is a tool to create, compare and plot bandstructures of materials. The tool is currently in development, meaning that some essential features are still missing. This documentation will continue to be updated as more features become available.
 
@@ -12,7 +12,7 @@ This is a tool to create, compare and plot bandstructures of materials. The tool
 Installation
 ~~~~~~~~~~~~
 
-You can install this tool with with pip:
+You can install this tool with pip:
 
 .. code ::
 
