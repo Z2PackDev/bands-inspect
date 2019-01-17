@@ -14,6 +14,7 @@ matrix:
       env: TEST_TYPE="compliance"
 
 install:
+  - pip install -U pytest
   - pip install .[test,pre-commit]
 
 script:

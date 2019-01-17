@@ -37,7 +37,7 @@ class KpointsMesh(KpointsBase, types.SimpleNamespace):
         if len(offset) != len(mesh):
             raise ValueError(
                 "Length of 'offset' ({}) does not match the length of 'mesh' ({}).".
-                format(len(offset), len(mesh))
+                format(offset, mesh)
             )
         self.mesh = mesh
         self.offset = offset
