@@ -39,7 +39,9 @@ import bands_inspect
 # ones.
 extensions = [
     'sphinx.ext.todo', 'sphinx.ext.autodoc', 'sphinx.ext.mathjax',
-    'sphinx.ext.viewcode', 'sphinx.ext.intersphinx', 'sphinx_click.ext'
+    'sphinx.ext.viewcode', 'sphinx.ext.intersphinx', 'sphinx_click.ext',
+    'IPython.sphinxext.ipython_console_highlighting',
+    'IPython.sphinxext.ipython_directive'
 ]
 
 intersphinx_mapping = {

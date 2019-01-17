@@ -30,6 +30,14 @@ Plotting
     :imported-members:
     :inherited-members:
 
+Difference
+----------
+
+.. automodule:: bands_inspect.compare.difference
+    :members:
+    :imported-members:
+    :inherited-members:
+
 Saving and Loading
 ------------------
 

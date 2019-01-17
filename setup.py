@@ -21,7 +21,8 @@ with open('./bands_inspect/__init__.py', 'r') as f:
 
 EXTRAS_REQUIRE = {
     'test': ['pytest', 'pytest-cov'],
-    'doc': ['sphinx', 'sphinx-rtd-theme', 'sphinx-click', 'ipython>=6.2'],
+    'doc':
+    ['sphinx', 'sphinx-rtd-theme', 'sphinx-click', 'ipython>=6.2', 'tbmodels'],
     'pre-commit': ['pre-commit', 'yapf==0.21.0', 'prospector']
 }
 EXTRAS_REQUIRE['dev'] = sum(EXTRAS_REQUIRE.values(), [])
