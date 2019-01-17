@@ -23,8 +23,10 @@ EXTRAS_REQUIRE = {
     'test': ['pytest', 'pytest-cov'],
     'doc':
     ['sphinx', 'sphinx-rtd-theme', 'sphinx-click', 'ipython>=6.2', 'tbmodels'],
-    'pre-commit':
-    ['pre-commit==1.14.2', 'yapf==0.25.0', 'prospector==1.1.6.2']
+    'pre-commit': [
+        'pre-commit==1.14.2', 'yapf==0.25.0', 'prospector==1.1.6.2',
+        'pylint==2.2.2'
+    ]
 }
 EXTRAS_REQUIRE['dev'] = sum(EXTRAS_REQUIRE.values(), [])
 
