@@ -11,7 +11,7 @@ import numpy as np
 from fsc.export import export
 from fsc.hdf5_io import subscribe_hdf5
 
-from . import KpointsBase
+from ._base import KpointsBase
 
 
 @export
@@ -36,8 +36,8 @@ class KpointsMesh(KpointsBase, types.SimpleNamespace):
 
         if len(offset) != len(mesh):
             raise ValueError(
-                "Length of 'offset' ({}) does not match the length of 'mesh' ({}).".
-                format(offset, mesh)
+                "Length of 'offset' ({}) does not match the length of 'mesh' ({})."
+                .format(offset, mesh)
             )
         self.mesh = mesh
         self.offset = offset

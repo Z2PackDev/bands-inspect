@@ -10,7 +10,7 @@ import numpy as np
 from fsc.export import export
 from fsc.hdf5_io import subscribe_hdf5
 
-from . import KpointsBase
+from ._base import KpointsBase
 
 
 @export

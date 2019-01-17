@@ -36,8 +36,8 @@ class EigenvalsData(HDF5Enabled, types.SimpleNamespace):
         eigenvals = np.sort(eigenvals)
         if len(kpoints.kpoints_explicit) != len(eigenvals):
             raise ValueError(
-                "Number of kpoints ({}) does not match the number of eigenvalue lists ({})".
-                format(len(kpoints.kpoints_explicit), len(eigenvals))
+                "Number of kpoints ({}) does not match the number of eigenvalue lists ({})"
+                .format(len(kpoints.kpoints_explicit), len(eigenvals))
             )
         self.kpoints = kpoints
         self.eigenvals = eigenvals

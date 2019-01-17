@@ -8,7 +8,7 @@ import tempfile
 
 import pytest
 
-from instances import SERIALIZABLE_INSTANCES
+from instances import SERIALIZABLE_INSTANCES  # pylint: disable=import-error
 
 
 @pytest.mark.parametrize('instance', SERIALIZABLE_INSTANCES)
