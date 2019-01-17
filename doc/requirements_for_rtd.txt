@@ -1,7 +1,0 @@
-fsc.export
-fsc.hdf5-io
-click
-decorator
-sphinx-click
-ipython>=6.2
-tbmodels
