@@ -6,14 +6,14 @@
 bands-inspect
 =============
 
-This is a tool to create, compare and plot bandstructures of materials. The tool is currently in development, meaning that some essential features are still missing. This documentation will continue to be updated as more features become available.
+This is a tool to create, compare and plot bandstructures of materials.
 
 .. contents ::
     :local:
 
 
 Installation
-~~~~~~~~~~~~
+------------
 
 You can install this tool with pip:
 
@@ -21,6 +21,26 @@ You can install this tool with pip:
 
     pip install bands-inspect
 
+
+Tutorial
+--------
+
+The following tutorial illustrates some examples of the most important functionality in the ``bands-inspect`` library.
+
+Defining k-point meshes
+'''''''''''''''''''''''
+
+Creating eigenvalue objects
+'''''''''''''''''''''''''''
+
+Plotting
+''''''''
+
+Band difference
+'''''''''''''''
+
+Slicing bands
+'''''''''''''
 
 .. toctree::
     :hidden:

@@ -21,10 +21,11 @@ with open('./bands_inspect/__init__.py', 'r') as f:
 
 EXTRAS_REQUIRE = {
     'test': ['pytest', 'pytest-cov'],
-    'doc': ['sphinx', 'sphinx-rtd-theme', 'sphinx-click'],
-    'dev': ['pre-commit', 'yapf==0.21.0', 'prospector']
+    'doc': ['sphinx', 'sphinx-rtd-theme', 'sphinx-click', 'ipython>=6.2'],
+    'pre-commit': ['pre-commit', 'yapf==0.21.0', 'prospector']
 }
-EXTRAS_REQUIRE['dev'] += EXTRAS_REQUIRE['test'] + EXTRAS_REQUIRE['doc']
+EXTRAS_REQUIRE['dev'] = sum(EXTRAS_REQUIRE.values(), [])
+
 INSTALL_REQUIRES = ['click', 'decorator', 'fsc.export']
 if os.environ.get('READTHEDOCS') != 'True':
     INSTALL_REQUIRES += ['numpy', 'scipy', 'matplotlib', 'h5py', 'fsc.hdf5-io']
