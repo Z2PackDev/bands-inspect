@@ -1,3 +1,9 @@
+<!--
+© 2017-2019, ETH Zurich, Institut für Theoretische Physik
+Author: Dominik Gresch <greschd@gmx.ch>
+-->
+
+
 Utilities for creating, comparing and plotting bandstructures of materials.
 
 Documentation: http://bands-inspect.readthedocs.io

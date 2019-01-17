@@ -1,3 +1,5 @@
+# © 2017-2019, ETH Zurich, Institut für Theoretische Physik
+# Author: Dominik Gresch <greschd@gmx.ch>
 """
 Defines the data class for explicitly specified k-points.
 """

@@ -1,3 +1,5 @@
+# © 2017-2019, ETH Zurich, Institut für Theoretische Physik
+# Author: Dominik Gresch <greschd@gmx.ch>
 """
 Defines functions to compare two bandstructures by calculating their difference, with different averaging and weighting methods.
 """

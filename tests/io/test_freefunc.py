@@ -1,3 +1,5 @@
+# © 2017-2019, ETH Zurich, Institut für Theoretische Physik
+# Author: Dominik Gresch <greschd@gmx.ch>
 """
 Tests for HDF5 serialization with the free save / load functions.
 """

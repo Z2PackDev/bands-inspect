@@ -1,3 +1,5 @@
+# © 2017-2019, ETH Zurich, Institut für Theoretische Physik
+# Author: Dominik Gresch <greschd@gmx.ch>
 """
 Defines free functions to serialize / deserialize bands-inspect objects to HDF5.
 """

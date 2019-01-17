@@ -1,3 +1,5 @@
+# © 2017-2019, ETH Zurich, Institut für Theoretische Physik
+# Author: Dominik Gresch <greschd@gmx.ch>
 """
 Usage: pip install .[test,doc,dev]
 """
@@ -13,9 +15,9 @@ if sys.version_info < (3, 4):
 
 README = """Utilities for creating, comparing and plotting bandstructures of materials."""
 
-with open('./bands_inspect/_version.py', 'r') as f:
-    MATCH_EXPR = "__version__[^'" + '"]+([' + "'" + r'"])([^\1]+)\1'
-    VERSION = re.search(MATCH_EXPR, f.read()).group(2)
+with open('./bands_inspect/__init__.py', 'r') as f:
+    MATCH_EXPR = "__version__[^'\"]+(['\"])([^'\"]+)"
+    VERSION = re.search(MATCH_EXPR, f.read()).group(2).strip()
 
 EXTRAS_REQUIRE = {
     'test': ['pytest', 'pytest-cov'],
@@ -38,7 +40,7 @@ setup(
     install_requires=INSTALL_REQUIRES,
     extras_require=EXTRAS_REQUIRE,
     classifiers=[
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+        'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English', 'Operating System :: Unix',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
