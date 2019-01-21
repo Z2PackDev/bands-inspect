@@ -59,6 +59,6 @@ setup(
         [console_scripts]
         bands-inspect=bands_inspect._cli:cli
     ''',
-    license='GPL',
+    license='Apache 2.0',
     packages=find_packages()
 )
