@@ -1,4 +1,6 @@
-# © 2017-2019, ETH Zurich, Institut für Theoretische Physik
+# -*- coding: utf-8 -*-
+
+# (c) 2017-2019, ETH Zurich, Institut fuer Theoretische Physik
 # Author: Dominik Gresch <greschd@gmx.ch>
 """
 Tests for HDF5 serialization with the free save / load functions.

@@ -1,4 +1,6 @@
-# © 2017-2019, ETH Zurich, Institut für Theoretische Physik
+# -*- coding: utf-8 -*-
+
+# (c) 2017-2019, ETH Zurich, Institut fuer Theoretische Physik
 # Author: Dominik Gresch <greschd@gmx.ch>
 """
 Defines tests which check that the explicit k-points match an expected result.
