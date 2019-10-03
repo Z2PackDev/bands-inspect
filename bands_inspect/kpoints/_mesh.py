@@ -28,7 +28,6 @@ class KpointsMesh(KpointsBase, types.SimpleNamespace):
     :param offset: Offset added to the k-point values. If nothing is given, the grid is aligned at the :math:`\Gamma` - point.
     :type offset: list
     """
-
     def __init__(self, mesh, offset=None):
         mesh = tuple(int(m) for m in mesh)
         if offset is None:

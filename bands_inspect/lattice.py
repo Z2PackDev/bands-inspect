@@ -18,7 +18,6 @@ class Lattice:
     """
     Defines a periodic lattice.
     """
-
     def __init__(self, matrix):
         self.matrix = np.array(matrix)
 

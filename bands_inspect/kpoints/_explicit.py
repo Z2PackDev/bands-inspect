@@ -26,7 +26,6 @@ class KpointsExplicit(KpointsBase, types.SimpleNamespace):
     :param kpoints: List of explicit k-points.
     :type kpoints: list
     """
-
     def __init__(self, kpoints):
         self.kpoints = np.array(kpoints)
 

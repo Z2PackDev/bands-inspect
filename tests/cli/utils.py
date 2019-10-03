@@ -17,7 +17,6 @@ def run_command():
     """
     Invoke the CLI with the given arguments.
     """
-
     def inner(args):
         return CliRunner().invoke(cli, args, catch_exceptions=False)
 

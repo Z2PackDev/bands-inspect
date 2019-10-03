@@ -30,7 +30,6 @@ class EigenvalsData(HDF5Enabled, types.SimpleNamespace):
     :param eigenvals: Eigenvalues at each k-point. The outer axis corresponds to the different k-points, and the inner axis corresponds to the different eigenvalues at a given k-point.
     :type eigenvals: 2D array
     """
-
     def __init__(self, *, kpoints, eigenvals):
         if not isinstance(kpoints, KpointsBase):
             kpoints = KpointsExplicit(kpoints)

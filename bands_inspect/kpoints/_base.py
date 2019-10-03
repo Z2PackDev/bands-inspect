@@ -17,13 +17,11 @@ class KpointsBase(HDF5Enabled):
     """
     Base class for classes defining sets of k-points.
     """
-
     @abc.abstractproperty
     def kpoints_explicit(self):
         """
         Array containing all k-points explicitly.
         """
-
     def __iter__(self):
         return iter(self.kpoints_explicit)
 

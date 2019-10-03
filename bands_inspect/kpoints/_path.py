@@ -35,7 +35,6 @@ class KpointsPath(KpointsBase):
     :param unit_cell: Unit cell of the material. The basis vectors are given as rows in a matrix.
     :type unit_cell: array
     """
-
     def __init__(
         self,
         *,
@@ -155,7 +154,6 @@ class _Vertex:
     """
     Defines a vertex in the k-point path.
     """
-
     def __init__(self, point, special_points):
         self.frac = np.array(special_points.get(point, point))
         self.label = str(point)
