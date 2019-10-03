@@ -39,4 +39,4 @@ class KpointsExplicit(KpointsBase, types.SimpleNamespace):
 
     @classmethod
     def from_hdf5(cls, hdf5_handle):
-        return cls(kpoints=hdf5_handle['kpoints'].value)
+        return cls(kpoints=hdf5_handle['kpoints'][()])

@@ -65,5 +65,5 @@ class KpointsMesh(KpointsBase, types.SimpleNamespace):
     @classmethod
     def from_hdf5(cls, hdf5_handle):
         return cls(
-            mesh=hdf5_handle['mesh'].value, offset=hdf5_handle['offset'].value
+            mesh=hdf5_handle['mesh'][()], offset=hdf5_handle['offset'][()]
         )

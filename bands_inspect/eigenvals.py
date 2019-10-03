@@ -85,5 +85,5 @@ class EigenvalsData(HDF5Enabled, types.SimpleNamespace):
     @classmethod
     def from_hdf5(cls, hdf5_handle):
         kpoints = from_hdf5(hdf5_handle['kpoints_obj'])
-        eigenvals = hdf5_handle['eigenvals'].value
+        eigenvals = hdf5_handle['eigenvals'][()]
         return cls(kpoints=kpoints, eigenvals=eigenvals)

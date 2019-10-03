@@ -140,8 +140,8 @@ class KpointsPath(KpointsBase):
             special_points = _hdf5_utils.dict_from_hdf5(
                 hdf5_handle['special_points']
             )
-        kpoint_distance = hdf5_handle['kpoint_distance'].value
-        unit_cell = hdf5_handle['unit_cell'].value
+        kpoint_distance = hdf5_handle['kpoint_distance'][()]
+        unit_cell = hdf5_handle['unit_cell'][()]
 
         return cls(
             paths=path_labels,
