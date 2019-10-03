@@ -34,7 +34,7 @@ EXTRAS_REQUIRE['dev'] = sum(EXTRAS_REQUIRE.values(), [])
 
 INSTALL_REQUIRES = ['click', 'decorator', 'fsc.export']
 if os.environ.get('READTHEDOCS') != 'True':
-    INSTALL_REQUIRES += ['numpy', 'scipy', 'matplotlib', 'h5py', 'fsc.hdf5-io']
+    INSTALL_REQUIRES += ['numpy', 'scipy', 'matplotlib>=2', 'h5py', 'fsc.hdf5-io']
 
 setup(
     name='bands-inspect',
