@@ -26,15 +26,17 @@ EXTRAS_REQUIRE = {
     'doc':
     ['sphinx', 'sphinx-rtd-theme', 'sphinx-click', 'ipython>=6.2', 'tbmodels'],
     'pre-commit': [
-        'pre-commit==1.14.2', 'yapf==0.25.0', 'prospector==1.1.6.2',
-        'pylint==2.2.2'
+        'pre-commit==1.18.3', 'yapf==0.28.0', 'prospector==1.1.7',
+        'pylint==2.3.1'
     ]
 }
 EXTRAS_REQUIRE['dev'] = sum(EXTRAS_REQUIRE.values(), [])
 
 INSTALL_REQUIRES = ['click', 'decorator', 'fsc.export']
 if os.environ.get('READTHEDOCS') != 'True':
-    INSTALL_REQUIRES += ['numpy', 'scipy', 'matplotlib>=2', 'h5py', 'fsc.hdf5-io']
+    INSTALL_REQUIRES += [
+        'numpy', 'scipy', 'matplotlib>=2', 'h5py', 'fsc.hdf5-io'
+    ]
 
 setup(
     name='bands-inspect',

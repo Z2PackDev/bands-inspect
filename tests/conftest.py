@@ -41,8 +41,7 @@ def compare_data(request, test_name, scope="session"):  # pylint: disable=unused
         if val is None:
             request.config.cache.set(full_name, data_str)
             raise ValueError('Reference data does not exist.')
-        else:
-            assert compare_fct(val, data)
+        assert compare_fct(val, data)
 
     return inner
 

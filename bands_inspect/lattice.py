@@ -10,7 +10,7 @@ import numpy as np
 import scipy.linalg as la
 from fsc.export import export
 
-# TODO: move to a separate module  # pylint: disable=fixme
+# TODO: move to a separate module  # pylint: disable=fixme,useless-suppression
 
 
 @export
