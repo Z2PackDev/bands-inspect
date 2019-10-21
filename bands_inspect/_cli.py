@@ -40,14 +40,16 @@ def difference(eigenval_files, energy_window):
 
 
 @cli.command()
-@click.argument(
-    'eigenval_files',
+@click.option(
+    '-i',
+    '--input-files',
     nargs=2,
     type=click.Path(exists=True, dir_okay=False),
     default=['eigenvals1.hdf5', 'eigenvals2.hdf5']
 )
-@click.argument(
-    'output_files',
+@click.option(
+    '-o',
+    '--output-files',
     nargs=2,
     type=click.Path(exists=False, dir_okay=False),
     default=['eigenvals1_shifted.hdf5', 'eigenvals2_shifted.hdf5']
