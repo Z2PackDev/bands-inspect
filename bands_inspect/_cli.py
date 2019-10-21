@@ -40,23 +40,25 @@ def difference(eigenval_files, energy_window):
 
 
 @cli.command()
-@click.argument(
-    'eigenval_files',
+@click.option(
+    '-i',
+    '--input-files',
     nargs=2,
     type=click.Path(exists=True, dir_okay=False),
     default=['eigenvals1.hdf5', 'eigenvals2.hdf5']
 )
-@click.argument(
-    'output_files',
+@click.option(
+    '-o',
+    '--output-files',
     nargs=2,
     type=click.Path(exists=False, dir_okay=False),
     default=['eigenvals1_shifted.hdf5', 'eigenvals2_shifted.hdf5']
 )
-def align(eigenval_files, output_files):
+def align(input_files, output_files):
     """
     Align two bandstructures.
     """
-    ev1, ev2 = [io.load(filename) for filename in eigenval_files]
+    ev1, ev2 = [io.load(filename) for filename in input_files]
 
     res = _align.calculate(ev1, ev2)
     io.save(res.eigenvals1_shifted, output_files[0])
