@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 from . import io
 from . import plot
 from .compare import difference as _diff
+from .compare import align as _align
 
 
 @click.group()
@@ -36,6 +37,33 @@ def difference(eigenval_files, energy_window):
         kwargs['weight_eigenval'] = _diff.energy_window(*energy_window)
 
     click.echo(_diff.calculate(ev1, ev2, **kwargs))
+
+
+@cli.command()
+@click.argument(
+    'eigenval_files',
+    nargs=2,
+    type=click.Path(exists=True, dir_okay=False),
+    default=['eigenvals1.hdf5', 'eigenvals2.hdf5']
+)
+@click.argument(
+    'output_files',
+    nargs=2,
+    type=click.Path(exists=False, dir_okay=False),
+    default=['eigenvals1_shifted.hdf5', 'eigenvals2_shifted.hdf5']
+)
+def align(eigenval_files, output_files):
+    """
+    Align two bandstructures.
+    """
+    ev1, ev2 = [io.load(filename) for filename in eigenval_files]
+
+    res = _align.calculate(ev1, ev2)
+    io.save(res.eigenvals1_shifted, output_files[0])
+    io.save(res.eigenvals2_shifted, output_files[1])
+
+    click.echo(f'Shift:      {res.shift: }')
+    click.echo(f'Difference: {res.difference: }')
 
 
 @cli.command()
