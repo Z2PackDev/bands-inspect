@@ -70,8 +70,8 @@ def align(input_files, output_files, energy_window):
     io.save(res.eigenvals1_shifted, output_files[0])
     io.save(res.eigenvals2_shifted, output_files[1])
 
-    click.echo(f'Shift:      {res.shift: }')
-    click.echo(f'Difference: {res.difference: }')
+    click.echo('Shift:      {: }'.format(res.shift))
+    click.echo('Difference: {: }'.format(res.difference))
 
 
 @cli.command()
