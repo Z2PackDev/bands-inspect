@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 from . import io
 from . import plot
 from .compare import difference as _diff
+from .compare import align as _align
 
 
 @click.group()
@@ -36,6 +37,41 @@ def difference(eigenval_files, energy_window):
         kwargs['weight_eigenval'] = _diff.energy_window(*energy_window)
 
     click.echo(_diff.calculate(ev1, ev2, **kwargs))
+
+
+@cli.command()
+@click.option(
+    '-i',
+    '--input-files',
+    nargs=2,
+    type=click.Path(exists=True, dir_okay=False),
+    default=['eigenvals1.hdf5', 'eigenvals2.hdf5']
+)
+@click.option(
+    '-o',
+    '--output-files',
+    nargs=2,
+    type=click.Path(exists=False, dir_okay=False),
+    default=['eigenvals1_shifted.hdf5', 'eigenvals2_shifted.hdf5']
+)
+@click.option('--energy-window', nargs=2, type=float, required=False)
+def align(input_files, output_files, energy_window):
+    """
+    Align two bandstructures.
+    """
+    ev1, ev2 = [io.load(filename) for filename in input_files]
+
+    kwargs = {}
+    if energy_window:
+        kwargs['weight_eigenval'] = _diff.energy_window(*energy_window)
+    res = _align.calculate(
+        ev1, ev2, symmetric_eigenval_weights=False, **kwargs
+    )
+    io.save(res.eigenvals1_shifted, output_files[0])
+    io.save(res.eigenvals2_shifted, output_files[1])
+
+    click.echo('Shift:      {: }'.format(res.shift))
+    click.echo('Difference: {: }'.format(res.difference))
 
 
 @cli.command()

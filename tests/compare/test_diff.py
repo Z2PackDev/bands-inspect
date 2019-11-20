@@ -3,7 +3,7 @@
 # (c) 2017-2019, ETH Zurich, Institut fuer Theoretische Physik
 # Author: Dominik Gresch <greschd@gmx.ch>
 """
-Tests for the functions that calculat the difference between bandstructures.
+Tests for the functions that calculate the difference between bandstructures.
 """
 
 import numpy as np

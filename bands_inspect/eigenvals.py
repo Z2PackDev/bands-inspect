@@ -86,3 +86,13 @@ class EigenvalsData(HDF5Enabled, types.SimpleNamespace):
         kpoints = from_hdf5(hdf5_handle['kpoints_obj'])
         eigenvals = hdf5_handle['eigenvals'][()]
         return cls(kpoints=kpoints, eigenvals=eigenvals)
+
+    def shift(self, value):
+        """
+        Returns an instance with eigenvalues shifted by the given value.
+
+        :param value: The value by which the eigenvalues are shifted.
+        :type value: float
+        """
+        new_eigenvals = self.eigenvals + value
+        return type(self)(kpoints=self.kpoints, eigenvals=new_eigenvals)

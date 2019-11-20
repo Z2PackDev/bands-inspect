@@ -29,3 +29,6 @@ tests/.coverage
 
 # mypy
 .mypy_cache
+
+# VSCode
+.vscode
