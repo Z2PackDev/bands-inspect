@@ -23,7 +23,7 @@ AlignResult = namedtuple(
 
 
 @export
-def calculate(eigenvals1, eigenvals2, *, symmetric_shift=True, **kwargs):
+def calculate(eigenvals1, eigenvals2, *, symmetric_shift=False, **kwargs):
     """
     Shift the two sets of eigenvalues such that their difference is minimized.
 
