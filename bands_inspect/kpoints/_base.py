@@ -22,6 +22,7 @@ class KpointsBase(HDF5Enabled):
         """
         Array containing all k-points explicitly.
         """
+
     def __iter__(self):
         return iter(self.kpoints_explicit)
 
