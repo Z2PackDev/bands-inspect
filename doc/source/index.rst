@@ -120,12 +120,27 @@ The data container used in the ``bands-inspect`` code is the :class:`.EigenvalsD
        ...:     eigenvals=[[-0.124, 0.001123, 0.51234], [-0.132, 0.013, 0.412]]
        ...: )
 
-When a Python function that calculated the eigenvalues at a given k-point is known, the :meth:`.from_eigenval_function` method can be used to conveniently build such an :class:`.EigenvalsData` object. For example, if we have a tight-binding model from the `TBmodels <http://z2pack.ethz.ch/tbmodels>`_ code:
+When a Python function that calculated the eigenvalues at a given k-point is known, the :meth:`.from_eigenval_function` method can be used to conveniently build such an :class:`.EigenvalsData` object. For example, if we have a tight-binding model from the `TBmodels <https://tbmodels.greschd.ch>`_ code:
 
 .. ipython::
 
+    @suppress
+    In [0]: # NOTE: This is a bit of a hack, to enable building on
+       ...: # readthedocs where the CWD is not 'doc'.
+       ...: import os
+       ...: import pathlib
+       ...: for candidate in [
+       ...:         pathlib.Path('.') / 'source' / 'samples',
+       ...:         pathlib.Path('.') / 'samples',
+       ...:     ]:
+       ...:     if candidate.exists():
+       ...:         SAMPLES_DIR = candidate
+       ...:         break
+       ...: else:
+       ...:     raise ValueError("Could not find samples directory. CWD: {}".format(os.getcwd()))
+
     In [0]: import tbmodels
-       ...: model = tbmodels.io.load('./source/samples/InSb.hdf5');
+       ...: model = tbmodels.io.load(SAMPLES_DIR / 'InSb.hdf5');
 
     In [0]: ev_from_function = bi.eigenvals.EigenvalsData.from_eigenval_function(
        ...:     kpoints=kpts_path_with_uc,
