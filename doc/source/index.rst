@@ -124,8 +124,23 @@ When a Python function that calculated the eigenvalues at a given k-point is kno
 
 .. ipython::
 
+    @suppress
+    In [0]: # NOTE: This is a bit of a hack, to enable building on
+       ...: # readthedocs where the CWD is not 'doc'.
+       ...: import os
+       ...: import pathlib
+       ...: for candidate in [
+       ...:         pathlib.Path('.') / 'source' / 'samples',
+       ...:         pathlib.Path('.') / 'samples',
+       ...:     ]:
+       ...:     if candidate.exists():
+       ...:         SAMPLES_DIR = candidate
+       ...:         break
+       ...: else:
+       ...:     raise ValueError("Could not find samples directory. CWD: {}".format(os.getcwd()))
+
     In [0]: import tbmodels
-       ...: model = tbmodels.io.load('./source/samples/InSb.hdf5');
+       ...: model = tbmodels.io.load(SAMPLES_DIR / 'InSb.hdf5');
 
     In [0]: ev_from_function = bi.eigenvals.EigenvalsData.from_eigenval_function(
        ...:     kpoints=kpts_path_with_uc,

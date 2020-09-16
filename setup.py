@@ -23,8 +23,10 @@ with open('./bands_inspect/__init__.py', 'r', encoding='utf-8') as f:
 
 EXTRAS_REQUIRE = {
     'test': ['pytest', 'pytest-cov'],
-    'doc':
-    ['sphinx', 'sphinx-rtd-theme', 'sphinx-click', 'ipython>=6.2', 'tbmodels'],
+    'doc': [
+        'sphinx~=3.2', 'sphinx-rtd-theme', 'sphinx-click', 'ipython>=6.2',
+        'tbmodels'
+    ],
     'pre-commit':
     ['pre-commit==2.7.1', 'yapf==0.30.0', 'pylint==2.6.0', 'mypy==0.782']
 }

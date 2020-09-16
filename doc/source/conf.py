@@ -29,8 +29,11 @@ extensions = [
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3', None),
-    'sympy': ('http://docs.sympy.org/latest', None),
-    'h5py': ('http://docs.h5py.org/en/latest', None),
+    'numpy': ('https://numpy.org/doc/stable/', None),
+    'sympy': ('https://docs.sympy.org/latest', None),
+    'h5py': ('https://docs.h5py.org/en/latest', None),
+    'fsc.hdf5-io':
+    ('http://frescolinogroup.github.io/frescolino/pyhdf5io/0.5', None),
 }
 
 nitpick_ignore = [('py:obj', ''), ('py:obj', '2D array')]
