@@ -244,6 +244,59 @@ For example, let us calculate the difference where only the first :math:`100` k-
 
 Furthermore, the function used to calculate the average can also be defined by the user. By default, ``np.average`` is used.
 
+Alignment
+'''''''''
+
+A common problem when comparing band structures is that they can be shifted in energy relative to each other. Often this is not a physical effect, but due to e.g. using a different DFT code, or different pseudopotentials.
+
+Here, we manually create such a shifted band structure.
+
+.. ipython::
+
+    @savefig tutorial_plot_shifted.png
+    In [0]: ev_shifted = bi.eigenvals.EigenvalsData(
+       ...:     kpoints=ev_fine.kpoints,
+       ...:     eigenvals=ev_fine.eigenvals + 2.
+       ...: )
+       ...: fig, ax = plt.subplots()
+       ...: bi.plot.eigenvals(
+       ...:     ev_fine,
+       ...:     ax=ax,
+       ...:     plot_options={'color': 'C0', 'linewidth': 0.8}
+       ...: )
+       ...: bi.plot.eigenvals(
+       ...:     ev_shifted,
+       ...:     ax=ax,
+       ...:     plot_options={'color': 'C1', 'linewidth': 0.8}
+       ...: );
+
+The :mod:`.compare.align` sub-module can be used to re-align these band structures: It computes the energy shift needed to minimize the difference between the two band structures.
+
+.. ipython::
+
+    In [0]: align_result = bi.compare.align.calculate(ev_fine, ev_shifted)
+       ...: align_result.shift
+
+It also directly returns the aligned band structures:
+
+.. ipython::
+
+    @savefig tutorial_plot_aligned.png
+    In [0]: fig, ax = plt.subplots()
+       ...: bi.plot.eigenvals(
+       ...:     align_result.eigenvals1_shifted,
+       ...:     ax=ax,
+       ...:     plot_options={'color': 'C0', 'linewidth': 0.8}
+       ...: )
+       ...: bi.plot.eigenvals(
+       ...:     align_result.eigenvals2_shifted,
+       ...:     ax=ax,
+       ...:     plot_options={'color': 'C1', 'linewidth': 0.8, 'linestyle': '--'}
+       ...: );
+
+Note here that only the second set of eigenvalues was shifted. This can be changed with the `symmetric_shift` keyword argument to :func:`.compare.align.calculate`.
+Shifting in a non-symmetric way is useful when e.g. comparing multiple band structures to a given reference, to keep the reference unchanged.
+
 Slicing bands
 '''''''''''''
 
@@ -253,7 +306,7 @@ Often, band structures with different *number* of bands need to be compared. To 
 
     @savefig tutorial_plot_sliced.png
     In [0]: ev_sliced = ev_fine.slice_bands(range(2, 12))
-       ...: bi.plot.eigenvals(ev_sliced)
+       ...: bi.plot.eigenvals(ev_sliced);
 
 
 .. toctree::
