@@ -6,6 +6,7 @@
 Defines the data class for a k-point path.
 """
 
+from types import MappingProxyType
 from collections import namedtuple
 
 import numpy as np
@@ -33,13 +34,13 @@ class KpointsPath(KpointsBase):
     :type kpoint_distance: float
 
     :param unit_cell: Unit cell of the material. The basis vectors are given as rows in a matrix.
-    :type unit_cell: array
+    :type unit_cell: numpy.ndarray
     """
     def __init__(
         self,
         *,
         paths,
-        special_points={},
+        special_points=MappingProxyType({}),
         kpoint_distance=1e-3,
         unit_cell='auto'
     ):

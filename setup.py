@@ -12,22 +12,24 @@ import sys
 
 from setuptools import setup, find_packages
 
-if sys.version_info < (3, 5):
-    raise 'must use Python version 3.5 or higher'
+if sys.version_info < (3, 6):
+    raise 'must use Python version 3.6 or higher'
 
 README = """Utilities for creating, comparing and plotting bandstructures of materials."""
 
 with open('./bands_inspect/__init__.py', 'r', encoding='utf-8') as f:
     MATCH_EXPR = "__version__[^'\"]+(['\"])([^'\"]+)"
-    VERSION = re.search(MATCH_EXPR, f.read()).group(2).strip()
+    VERSION = re.search(MATCH_EXPR, f.read()).group(2).strip()  # type: ignore
 
 EXTRAS_REQUIRE = {
     'test': ['pytest', 'pytest-cov'],
-    'doc':
-    ['sphinx', 'sphinx-rtd-theme', 'sphinx-click', 'ipython>=6.2', 'tbmodels'],
+    'doc': [
+        'sphinx~=3.2', 'sphinx-rtd-theme', 'sphinx-click', 'ipython>=6.2',
+        'tbmodels'
+    ],
     'pre-commit': [
-        'pre-commit==1.18.3', 'yapf==0.29.0', 'prospector==1.1.7',
-        'pylint==2.3.1'
+        'pre-commit==2.7.1', 'yapf==0.30.0', 'pylint==2.6.0', 'mypy==0.782',
+        'isort==5.5.2'
     ]
 }
 EXTRAS_REQUIRE['dev'] = sum(EXTRAS_REQUIRE.values(), [])
@@ -41,19 +43,18 @@ if os.environ.get('READTHEDOCS') != 'True':
 setup(
     name='bands-inspect',
     version=VERSION,
-    url='http://z2pack.ethz.ch/bands-inspect',
+    url='https://bands-inspect.greschd.ch',
     author='Dominik Gresch',
     author_email='greschd@gmx.ch',
     description=README,
     long_description=README,
     install_requires=INSTALL_REQUIRES,
-    python_requires='>=3.5',
+    python_requires='>=3.6',
     extras_require=EXTRAS_REQUIRE,
     classifiers=[
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English', 'Operating System :: Unix',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
