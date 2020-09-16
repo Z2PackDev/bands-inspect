@@ -277,6 +277,8 @@ The :mod:`.compare.align` sub-module can be used to re-align these band structur
     In [0]: align_result = bi.compare.align.calculate(ev_fine, ev_shifted)
        ...: align_result.shift
 
+    In [0]: align_result.difference
+
 It also directly returns the aligned band structures:
 
 .. ipython::
