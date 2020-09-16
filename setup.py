@@ -12,8 +12,8 @@ import sys
 
 from setuptools import setup, find_packages
 
-if sys.version_info < (3, 5):
-    raise 'must use Python version 3.5 or higher'
+if sys.version_info < (3, 6):
+    raise 'must use Python version 3.6 or higher'
 
 README = """Utilities for creating, comparing and plotting bandstructures of materials."""
 
