@@ -41,7 +41,7 @@ if os.environ.get('READTHEDOCS') != 'True':
 setup(
     name='bands-inspect',
     version=VERSION,
-    url='http://z2pack.ethz.ch/bands-inspect',
+    url='https://bands-inspect.greschd.ch',
     author='Dominik Gresch',
     author_email='greschd@gmx.ch',
     description=README,

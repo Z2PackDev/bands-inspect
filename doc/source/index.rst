@@ -120,7 +120,7 @@ The data container used in the ``bands-inspect`` code is the :class:`.EigenvalsD
        ...:     eigenvals=[[-0.124, 0.001123, 0.51234], [-0.132, 0.013, 0.412]]
        ...: )
 
-When a Python function that calculated the eigenvalues at a given k-point is known, the :meth:`.from_eigenval_function` method can be used to conveniently build such an :class:`.EigenvalsData` object. For example, if we have a tight-binding model from the `TBmodels <http://z2pack.ethz.ch/tbmodels>`_ code:
+When a Python function that calculated the eigenvalues at a given k-point is known, the :meth:`.from_eigenval_function` method can be used to conveniently build such an :class:`.EigenvalsData` object. For example, if we have a tight-binding model from the `TBmodels <https://tbmodels.greschd.ch>`_ code:
 
 .. ipython::
 
