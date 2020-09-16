@@ -27,8 +27,10 @@ EXTRAS_REQUIRE = {
         'sphinx~=3.2', 'sphinx-rtd-theme', 'sphinx-click', 'ipython>=6.2',
         'tbmodels'
     ],
-    'pre-commit':
-    ['pre-commit==2.7.1', 'yapf==0.30.0', 'pylint==2.6.0', 'mypy==0.782']
+    'pre-commit': [
+        'pre-commit==2.7.1', 'yapf==0.30.0', 'pylint==2.6.0', 'mypy==0.782',
+        'isort==5.5.2'
+    ]
 }
 EXTRAS_REQUIRE['dev'] = sum(EXTRAS_REQUIRE.values(), [])
 

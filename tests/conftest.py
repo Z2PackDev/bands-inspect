@@ -14,7 +14,7 @@ import numpy as np
 
 import bands_inspect as bi
 
-import parameters
+import parameters  # pylint: disable=wrong-import-order
 
 #--------------------------FIXTURES-------------------------------------#
 

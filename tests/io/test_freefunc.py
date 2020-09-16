@@ -11,7 +11,7 @@ import tempfile
 import pytest
 
 import bands_inspect as bi
-from instances import SERIALIZABLE_INSTANCES  # pylint: disable=import-error
+from instances import SERIALIZABLE_INSTANCES  # pylint: disable=import-error,wrong-import-order
 
 
 @pytest.mark.parametrize('instance', SERIALIZABLE_INSTANCES)
