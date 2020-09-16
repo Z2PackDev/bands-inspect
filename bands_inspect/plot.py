@@ -6,6 +6,8 @@
 Defines functions to plot bandstructures.
 """
 
+from types import MappingProxyType
+
 import decorator
 
 from .kpoints._path import _KpointLabel
@@ -13,7 +15,7 @@ from .kpoints._path import _KpointLabel
 
 @decorator.decorator
 def _plot(func, data, *, ax=None, **kwargs):  # pylint: disable=missing-docstring,invalid-name,inconsistent-return-statements
-    import matplotlib.pyplot as plt
+    import matplotlib.pyplot as plt  # pylint: disable=import-outside-toplevel
 
     if ax is None:
         return_fig = True
@@ -36,10 +38,10 @@ def eigenvals(
     e_fermi=0.,
     vertex_labels=True,
     energy_labels=True,
-    plot_options={
+    plot_options=MappingProxyType({
         'color': 'C0',
         'lw': 0.8
-    }
+    })
 ):
     """
     Plot the bandstructure of a given :class:`.EigenvalsData` object.
@@ -70,7 +72,7 @@ def _merge_labels(labels):
     for l1, l2, l3 in zip(labels, labels[1:], labels[2:]):  # pylint: disable=invalid-name
         if l2.index - l1.index == 1:
             continue
-        elif l3.index - l2.index == 1:
+        if l3.index - l2.index == 1:
             new_labels.append(
                 _KpointLabel(
                     index=l2.index + 0.5, label=l2.label + ' | ' + l3.label
