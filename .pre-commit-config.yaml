@@ -16,3 +16,13 @@ repos:
     language: system
     types: [python]
     exclude: '^(doc/)|(examples/)|(playground/)'
+  - id: interpolate-workflows
+    name: Interpolate Github workflows
+    entry: python ./utils/interpolate_yaml_anchors.py
+    language: system
+    files: |
+      (?x)^(
+        .github/(.)*|
+        utils/interpolate_yaml_anchors.py
+      )$
+    pass_filenames: false

@@ -1,5 +1,5 @@
 # (c) 2019, Microsoft Research
-# Author: Dominik Gresch <greschd@gmx.ch>
+# Author: Dominik Gresch <mail@greschd.ch>
 """
 Defines a function to align two bandstructures in such a way
 that their difference is minimized.

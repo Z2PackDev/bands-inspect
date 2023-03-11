@@ -1,5 +1,5 @@
 # (c) 2017-2019, ETH Zurich, Institut fuer Theoretische Physik
-# Author: Dominik Gresch <greschd@gmx.ch>
+# Author: Dominik Gresch <mail@greschd.ch>
 """
 Defines tests which check that the explicit k-points match an expected result.
 """
