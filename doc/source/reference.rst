@@ -38,6 +38,14 @@ Difference
     :imported-members:
     :inherited-members:
 
+Alignment
+---------
+
+.. automodule:: bands_inspect.compare.align
+    :members:
+    :imported-members:
+    :inherited-members:
+
 Saving and Loading
 ------------------
 
