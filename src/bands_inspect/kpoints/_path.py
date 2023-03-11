@@ -50,7 +50,7 @@ class KpointsPath(KpointsBase):
         if len(dimensions) != 1:
             raise ValueError(f"Inconsistent dimensions: {dimensions}")
         dim = dimensions.pop()
-        if unit_cell == "auto":
+        if isinstance(unit_cell, str) and unit_cell == "auto":
             uc = np.eye(dim)  # pylint: disable=invalid-name
         else:
             uc = np.array(unit_cell)  # pylint: disable=invalid-name
