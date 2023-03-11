@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
 # (c) 2017-2019, ETH Zurich, Institut fuer Theoretische Physik
-# Author: Dominik Gresch <greschd@gmx.ch>
+# Author: Dominik Gresch <mail@greschd.ch>
 """
 Defines the data container for eigenvalue data (bandstructures).
 """
@@ -17,9 +15,7 @@ from .io import from_hdf5
 
 
 @export
-@subscribe_hdf5(
-    'bands_inspect.eigenvals_data', extra_tags=('eigenvals_data', )
-)
+@subscribe_hdf5("bands_inspect.eigenvals_data", extra_tags=("eigenvals_data",))
 class EigenvalsData(HDF5Enabled, types.SimpleNamespace):
     """
     Data container for the eigenvalues at a given set of k-points. The eigenvalues are automatically sorted by value.
@@ -30,15 +26,17 @@ class EigenvalsData(HDF5Enabled, types.SimpleNamespace):
     :param eigenvals: Eigenvalues at each k-point. The outer axis corresponds to the different k-points, and the inner axis corresponds to the different eigenvalues at a given k-point.
     :type eigenvals: 2D array
     """
-    def __init__(self, *, kpoints, eigenvals):
+
+    def __init__(
+        self, *, kpoints, eigenvals
+    ):  # pylint: disable=missing-function-docstring
         if not isinstance(kpoints, KpointsBase):
             kpoints = KpointsExplicit(kpoints)
 
         eigenvals = np.sort(eigenvals)
         if len(kpoints.kpoints_explicit) != len(eigenvals):
             raise ValueError(
-                "Number of kpoints ({}) does not match the number of eigenvalue lists ({})"
-                .format(len(kpoints.kpoints_explicit), len(eigenvals))
+                f"Number of kpoints ({len(kpoints.kpoints_explicit)}) does not match the number of eigenvalue lists ({len(eigenvals)})"
             )
         self.kpoints = kpoints
         self.eigenvals = eigenvals
@@ -54,9 +52,7 @@ class EigenvalsData(HDF5Enabled, types.SimpleNamespace):
         return type(self)(kpoints=self.kpoints, eigenvals=new_eigenvals)
 
     @classmethod
-    def from_eigenval_function(
-        cls, *, kpoints, eigenval_function, listable=False
-    ):
+    def from_eigenval_function(cls, *, kpoints, eigenval_function, listable=False):
         """
         Create an instance using a function that calculates the eigenvalues.
 
@@ -71,20 +67,18 @@ class EigenvalsData(HDF5Enabled, types.SimpleNamespace):
         if listable:
             eigenvals = eigenval_function(kpoints.kpoints_explicit)
         else:
-            eigenvals = [
-                eigenval_function(k) for k in kpoints.kpoints_explicit
-            ]
+            eigenvals = [eigenval_function(k) for k in kpoints.kpoints_explicit]
         return cls(kpoints=kpoints, eigenvals=eigenvals)
 
     def to_hdf5(self, hdf5_handle):
-        hdf5_handle.create_group('kpoints_obj')
-        self.kpoints.to_hdf5(hdf5_handle['kpoints_obj'])
-        hdf5_handle['eigenvals'] = self.eigenvals
+        hdf5_handle.create_group("kpoints_obj")
+        self.kpoints.to_hdf5(hdf5_handle["kpoints_obj"])
+        hdf5_handle["eigenvals"] = self.eigenvals
 
     @classmethod
     def from_hdf5(cls, hdf5_handle):
-        kpoints = from_hdf5(hdf5_handle['kpoints_obj'])
-        eigenvals = hdf5_handle['eigenvals'][()]
+        kpoints = from_hdf5(hdf5_handle["kpoints_obj"])
+        eigenvals = hdf5_handle["eigenvals"][()]
         return cls(kpoints=kpoints, eigenvals=eigenvals)
 
     def shift(self, value):

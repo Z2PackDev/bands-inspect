@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
 # (c) 2017-2019, ETH Zurich, Institut fuer Theoretische Physik
-# Author: Dominik Gresch <greschd@gmx.ch>
+# Author: Dominik Gresch <mail@greschd.ch>
 """
 Defines functions to compare two bandstructures by calculating their difference, with different averaging and weighting methods.
 """
@@ -40,16 +38,16 @@ def calculate(
     """
     kpoints = np.array(eigenvals1.kpoints)
     if not np.allclose(kpoints, np.array(eigenvals2.kpoints)):
-        raise ValueError(
-            'The k-points of the two sets of eigenvalues do not match.'
-        )
+        raise ValueError("The k-points of the two sets of eigenvalues do not match.")
     kpoint_weights = weight_kpoint(kpoints)
     if symmetric_eigenval_weights:
-        eigenval_weights = np.mean([
-            weight_eigenval(eigenvals1.eigenvals),
-            weight_eigenval(eigenvals2.eigenvals)
-        ],
-                                   axis=0)
+        eigenval_weights = np.mean(
+            [
+                weight_eigenval(eigenvals1.eigenvals),
+                weight_eigenval(eigenvals2.eigenvals),
+            ],
+            axis=0,
+        )
     else:
         eigenval_weights = weight_eigenval(eigenvals1.eigenvals)
 
@@ -72,8 +70,6 @@ def energy_window(lower, upper):
     lower, upper = sorted([lower, upper])
 
     def weight_eigenval(eigenvals):
-        return np.array(
-            np.logical_and(lower < eigenvals, eigenvals < upper), dtype=int
-        )
+        return np.array(np.logical_and(lower < eigenvals, eigenvals < upper), dtype=int)
 
     return weight_eigenval

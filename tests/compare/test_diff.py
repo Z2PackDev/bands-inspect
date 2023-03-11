@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
 # (c) 2017-2019, ETH Zurich, Institut fuer Theoretische Physik
-# Author: Dominik Gresch <greschd@gmx.ch>
+# Author: Dominik Gresch <mail@greschd.ch>
 """
 Tests for the functions that calculate the difference between bandstructures.
 """
@@ -18,17 +16,13 @@ def simple_eigenvals():
     """
     Fixture that creates two different simple bandstructures.
     """
-    ev1 = bi.eigenvals.EigenvalsData(
-        kpoints=[[0.1], [0.2]], eigenvals=[[1, 2], [3, 4]]
-    )
-    ev2 = bi.eigenvals.EigenvalsData(
-        kpoints=[[0.1], [0.2]], eigenvals=[[1, 2], [3, 5]]
-    )
+    ev1 = bi.eigenvals.EigenvalsData(kpoints=[[0.1], [0.2]], eigenvals=[[1, 2], [3, 4]])
+    ev2 = bi.eigenvals.EigenvalsData(kpoints=[[0.1], [0.2]], eigenvals=[[1, 2], [3, 5]])
     return ev1, ev2
 
 
 def test_zero_diff(sample):
-    eigenvals = bi.io.load(sample('silicon_bands.hdf5'))
+    eigenvals = bi.io.load(sample("silicon_bands.hdf5"))
     assert np.isclose(diff.calculate(eigenvals, eigenvals), 0)
 
 
@@ -38,25 +32,20 @@ def test_nonzero_diff(simple_eigenvals):  # pylint: disable=redefined-outer-name
 
 def test_energy_window_1(simple_eigenvals):  # pylint: disable=redefined-outer-name
     assert np.isclose(
-        diff.calculate(
-            *simple_eigenvals, weight_eigenval=diff.energy_window(0, 3.5)
-        ), 0
+        diff.calculate(*simple_eigenvals, weight_eigenval=diff.energy_window(0, 3.5)), 0
     )
 
 
 def test_energy_window_2(simple_eigenvals):  # pylint: disable=redefined-outer-name
     assert np.isclose(
-        diff.calculate(
-            *simple_eigenvals, weight_eigenval=diff.energy_window(3.5, 5)
-        ), 1
+        diff.calculate(*simple_eigenvals, weight_eigenval=diff.energy_window(3.5, 5)), 1
     )
 
 
 def test_energy_window_3(simple_eigenvals):  # pylint: disable=redefined-outer-name
     assert np.isclose(
-        diff.calculate(
-            *simple_eigenvals, weight_eigenval=diff.energy_window(2.9, 4.1)
-        ), 1 / 3
+        diff.calculate(*simple_eigenvals, weight_eigenval=diff.energy_window(2.9, 4.1)),
+        1 / 3,
     )
 
 
@@ -66,5 +55,6 @@ def test_energy_window_4(simple_eigenvals):  # pylint: disable=redefined-outer-n
             *simple_eigenvals,
             symmetric_eigenval_weights=False,
             weight_eigenval=diff.energy_window(2.9, 4.1)
-        ), 1 / 2
+        ),
+        1 / 2,
     )

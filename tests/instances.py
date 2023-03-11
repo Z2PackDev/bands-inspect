@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
 # (c) 2017-2019, ETH Zurich, Institut fuer Theoretische Physik
-# Author: Dominik Gresch <greschd@gmx.ch>
+# Author: Dominik Gresch <mail@greschd.ch>
 """
 Defines instances of the bands-inspect data classes.
 """
@@ -14,27 +12,19 @@ KPOINTS_INSTANCES = [
     KpointsMesh([2, 5, 2], offset=[0.1, -0.3, 0.4]),
     KpointsMesh([1, 2, 3]),
     KpointsPath(
-        special_points={
-            'a': [0, 0, 0],
-            'b': [0.5, 0, 0.5],
-            'c': [0.5, 0.5, 0.5]
-        },
-        paths=[['a', 'b', 'c', 'a']]
+        special_points={"a": [0, 0, 0], "b": [0.5, 0, 0.5], "c": [0.5, 0.5, 0.5]},
+        paths=[["a", "b", "c", "a"]],
     ),
     KpointsPath(
-        special_points={
-            'a': [0, 0, 0],
-            'b': [0.5, 0, 0.5],
-            'c': [0.5, 0.5, 0.5]
-        },
-        paths=[['a', 'b'], ['c', 'a']]
+        special_points={"a": [0, 0, 0], "b": [0.5, 0, 0.5], "c": [0.5, 0.5, 0.5]},
+        paths=[["a", "b"], ["c", "a"]],
     ),
 ]
 
 EIGENVALS_INSTANCES = [
     EigenvalsData(
         kpoints=[[0.1, 0.2, 0.3], [0.5, 0.1, 0.3]],
-        eigenvals=[[-0.2, 0.3, 0.4, 5], [-0.5, -0.7, 1, 9]]
+        eigenvals=[[-0.2, 0.3, 0.4, 5], [-0.5, -0.7, 1, 9]],
     )
 ]
 

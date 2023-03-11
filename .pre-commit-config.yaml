@@ -1,10 +1,13 @@
 repos:
-- repo: git://github.com/pre-commit/mirrors-yapf
-  rev: v0.30.0
+- repo: https://github.com/asottile/pyupgrade
+  rev: v3.3.1
   hooks:
-  - id: yapf
-    language: system
-
+  - id: pyupgrade
+    args: [--py38-plus]
+- repo: https://github.com/psf/black
+  rev: 23.1.0
+  hooks:
+  - id: black
 - repo: local
   hooks:
   - id: pylint
@@ -13,3 +16,13 @@ repos:
     language: system
     types: [python]
     exclude: '^(doc/)|(examples/)|(playground/)'
+  - id: interpolate-workflows
+    name: Interpolate Github workflows
+    entry: python ./utils/interpolate_yaml_anchors.py
+    language: system
+    files: |
+      (?x)^(
+        .github/(.)*|
+        utils/interpolate_yaml_anchors.py
+      )$
+    pass_filenames: false

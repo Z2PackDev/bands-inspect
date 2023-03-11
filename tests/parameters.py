@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
-
 # (c) 2017-2019, ETH Zurich, Institut fuer Theoretische Physik
-# Author: Dominik Gresch <greschd@gmx.ch>
+# Author: Dominik Gresch <mail@greschd.ch>
 """
 Defines helper parameters / constants for the test run.
 """
 
 from os.path import abspath, dirname, join
 
-SAMPLES_DIR = join(dirname(abspath(__file__)), 'samples')
+SAMPLES_DIR = join(dirname(abspath(__file__)), "samples")
