@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # (c) 2017-2019, ETH Zurich, Institut fuer Theoretische Physik
 # Author: Dominik Gresch <greschd@gmx.ch>
 """
@@ -17,7 +15,7 @@ from ._base import KpointsBase
 
 
 @export
-@subscribe_hdf5('bands_inspect.kpoints_mesh', extra_tags=('kpoints_mesh', ))
+@subscribe_hdf5("bands_inspect.kpoints_mesh", extra_tags=("kpoints_mesh",))
 class KpointsMesh(KpointsBase, types.SimpleNamespace):
     r"""
     Defines k-points on a regular mesh.
@@ -28,7 +26,8 @@ class KpointsMesh(KpointsBase, types.SimpleNamespace):
     :param offset: Offset added to the k-point values. If nothing is given, the grid is aligned at the :math:`\Gamma` - point.
     :type offset: list
     """
-    def __init__(self, mesh, offset=None):
+
+    def __init__(self, mesh, offset=None):  # pylint: disable=missing-function-docstring
         mesh = tuple(int(m) for m in mesh)
         if offset is None:
             offset = np.zeros_like(mesh)
@@ -37,8 +36,7 @@ class KpointsMesh(KpointsBase, types.SimpleNamespace):
 
         if len(offset) != len(mesh):
             raise ValueError(
-                "Length of 'offset' ({}) does not match the length of 'mesh' ({})."
-                .format(offset, mesh)
+                f"Length of 'offset' ({offset}) does not match the length of 'mesh' ({mesh})."
             )
         self.mesh = mesh
         self.offset = offset
@@ -58,11 +56,9 @@ class KpointsMesh(KpointsBase, types.SimpleNamespace):
         return res
 
     def to_hdf5(self, hdf5_handle):
-        hdf5_handle['mesh'] = self.mesh
-        hdf5_handle['offset'] = self.offset
+        hdf5_handle["mesh"] = self.mesh
+        hdf5_handle["offset"] = self.offset
 
     @classmethod
     def from_hdf5(cls, hdf5_handle):
-        return cls(
-            mesh=hdf5_handle['mesh'][()], offset=hdf5_handle['offset'][()]
-        )
+        return cls(mesh=hdf5_handle["mesh"][()], offset=hdf5_handle["offset"][()])

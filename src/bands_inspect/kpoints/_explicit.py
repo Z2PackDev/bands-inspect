@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # (c) 2017-2019, ETH Zurich, Institut fuer Theoretische Physik
 # Author: Dominik Gresch <greschd@gmx.ch>
 """
@@ -16,9 +14,7 @@ from ._base import KpointsBase
 
 
 @export
-@subscribe_hdf5(
-    'bands_inspect.kpoints_explicit', extra_tags=('kpoints_explicit', )
-)
+@subscribe_hdf5("bands_inspect.kpoints_explicit", extra_tags=("kpoints_explicit",))
 class KpointsExplicit(KpointsBase, types.SimpleNamespace):
     """
     Defines an explicit set of k-points.
@@ -26,6 +22,7 @@ class KpointsExplicit(KpointsBase, types.SimpleNamespace):
     :param kpoints: List of explicit k-points.
     :type kpoints: list
     """
+
     def __init__(self, kpoints):
         self.kpoints = np.array(kpoints)
 
@@ -34,8 +31,8 @@ class KpointsExplicit(KpointsBase, types.SimpleNamespace):
         return self.kpoints
 
     def to_hdf5(self, hdf5_handle):
-        hdf5_handle['kpoints'] = self.kpoints
+        hdf5_handle["kpoints"] = self.kpoints
 
     @classmethod
     def from_hdf5(cls, hdf5_handle):
-        return cls(kpoints=hdf5_handle['kpoints'][()])
+        return cls(kpoints=hdf5_handle["kpoints"][()])

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # (c) 2017-2019, ETH Zurich, Institut fuer Theoretische Physik
 # Author: Dominik Gresch <greschd@gmx.ch>
 """
@@ -18,6 +16,7 @@ class Lattice:
     """
     Defines a periodic lattice.
     """
+
     def __init__(self, matrix):
         self.matrix = np.array(matrix)
 
@@ -36,8 +35,8 @@ class Lattice:
 
     def get_cartesian_distance(self, fractional_coord_1, fractional_coord_2):
         return la.norm(
-            self.get_cartesian_coords(fractional_coord_1) -
-            self.get_cartesian_coords(fractional_coord_2)
+            self.get_cartesian_coords(fractional_coord_1)
+            - self.get_cartesian_coords(fractional_coord_2)
         )
 
     def get_reciprocal_cartesian_distance(  # pylint: disable=invalid-name

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # (c) 2017-2019, ETH Zurich, Institut fuer Theoretische Physik
 # Author: Dominik Gresch <greschd@gmx.ch>
 """
@@ -19,7 +17,7 @@ from ._base import KpointsBase
 
 
 @export
-@subscribe_hdf5('bands_inspect.kpoints_path', extra_tags=('kpoints_path', ))
+@subscribe_hdf5("bands_inspect.kpoints_path", extra_tags=("kpoints_path",))
 class KpointsPath(KpointsBase):
     """
     Defines a k-point path.
@@ -36,31 +34,29 @@ class KpointsPath(KpointsBase):
     :param unit_cell: Unit cell of the material. The basis vectors are given as rows in a matrix.
     :type unit_cell: numpy.ndarray
     """
-    def __init__(
+
+    def __init__(  # pylint: disable=missing-function-docstring
         self,
         *,
         paths,
         special_points=MappingProxyType({}),
         kpoint_distance=1e-3,
-        unit_cell='auto'
+        unit_cell="auto",
     ):
-        self._paths = [[_Vertex(pt, special_points) for pt in single_path]
-                       for single_path in paths]
-        dimensions = set(
-            pt.dimension for single_path in self._paths for pt in single_path
-        )
+        self._paths = [
+            [_Vertex(pt, special_points) for pt in single_path] for single_path in paths
+        ]
+        dimensions = {pt.dimension for single_path in self._paths for pt in single_path}
         if len(dimensions) != 1:
-            raise ValueError('Inconsistent dimensions: {}'.format(dimensions))
+            raise ValueError(f"Inconsistent dimensions: {dimensions}")
         dim = dimensions.pop()
-        if unit_cell is 'auto':  # pylint: disable=literal-comparison
+        if unit_cell == "auto":  # pylint: disable=literal-comparison
             uc = np.eye(dim)  # pylint: disable=invalid-name
         else:
             uc = np.array(unit_cell)  # pylint: disable=invalid-name
         if uc.shape != (dim, dim):
             raise ValueError(
-                'Inconsistent shape of the unit cell: {}, should be {}'.format(
-                    uc.shape, (dim, dim)
-                )
+                f"Inconsistent shape of the unit cell: {uc.shape}, should be {(dim, dim)}"
             )
         self._lattice = Lattice(matrix=uc)
         self._kpoint_distance = kpoint_distance
@@ -84,9 +80,7 @@ class KpointsPath(KpointsBase):
         num_kpoints_initial = len(self._kpoints_explicit)
         self._kpoints_explicit.append(single_path[0].frac)
         self._labels.append(
-            _KpointLabel(
-                index=num_kpoints_initial, label=single_path[0].label
-            )
+            _KpointLabel(index=num_kpoints_initial, label=single_path[0].label)
         )
         for start, end in zip(single_path, single_path[1:]):
             self._evaluate_line(start, end)
@@ -95,17 +89,13 @@ class KpointsPath(KpointsBase):
         """
         Calculate the explicit k-points between two vertices which are part of the path.
         """
-        dist = self._lattice.get_reciprocal_cartesian_distance(
-            start.frac, end.frac
-        )
+        dist = self._lattice.get_reciprocal_cartesian_distance(start.frac, end.frac)
         npoints = max(int(np.round_(dist / self._kpoint_distance)) + 1, 2)
         steps = np.linspace(0, 1, npoints)[1:]
         kpoints = [(1 - s) * start.frac + s * end.frac for s in steps]
         self._kpoints_explicit.extend(kpoints)
         self._labels.append(
-            _KpointLabel(
-                index=len(self._kpoints_explicit) - 1, label=end.label
-            )
+            _KpointLabel(index=len(self._kpoints_explicit) - 1, label=end.label)
         )
 
     @property
@@ -117,37 +107,31 @@ class KpointsPath(KpointsBase):
         return self._labels
 
     def to_hdf5(self, hdf5_handle):
-        path_labels = [[pt.label for pt in single_path]
-                       for single_path in self._paths]
-        to_hdf5(path_labels, hdf5_handle.create_group('path_labels'))
+        path_labels = [[pt.label for pt in single_path] for single_path in self._paths]
+        to_hdf5(path_labels, hdf5_handle.create_group("path_labels"))
         special_points = {
-            pt.label: pt.frac
-            for special_path in self._paths for pt in special_path
+            pt.label: pt.frac for special_path in self._paths for pt in special_path
         }
-        to_hdf5(special_points, hdf5_handle.create_group('special_points'))
-        hdf5_handle['kpoint_distance'] = self._kpoint_distance
-        hdf5_handle['unit_cell'] = self._lattice.matrix
+        to_hdf5(special_points, hdf5_handle.create_group("special_points"))
+        hdf5_handle["kpoint_distance"] = self._kpoint_distance
+        hdf5_handle["unit_cell"] = self._lattice.matrix
 
     @classmethod
     def from_hdf5(cls, hdf5_handle):
         try:
-            path_labels = from_hdf5(hdf5_handle['path_labels'])
-            special_points = from_hdf5(hdf5_handle['special_points'])
+            path_labels = from_hdf5(hdf5_handle["path_labels"])
+            special_points = from_hdf5(hdf5_handle["special_points"])
         except ValueError:
-            path_labels = _hdf5_utils.nested_list_from_hdf5(
-                hdf5_handle['path_labels']
-            )
-            special_points = _hdf5_utils.dict_from_hdf5(
-                hdf5_handle['special_points']
-            )
-        kpoint_distance = hdf5_handle['kpoint_distance'][()]
-        unit_cell = hdf5_handle['unit_cell'][()]
+            path_labels = _hdf5_utils.nested_list_from_hdf5(hdf5_handle["path_labels"])
+            special_points = _hdf5_utils.dict_from_hdf5(hdf5_handle["special_points"])
+        kpoint_distance = hdf5_handle["kpoint_distance"][()]
+        unit_cell = hdf5_handle["unit_cell"][()]
 
         return cls(
             paths=path_labels,
             special_points=special_points,
             kpoint_distance=kpoint_distance,
-            unit_cell=unit_cell
+            unit_cell=unit_cell,
         )
 
 
@@ -155,6 +139,7 @@ class _Vertex:
     """
     Defines a vertex in the k-point path.
     """
+
     def __init__(self, point, special_points):
         self.frac = np.array(special_points.get(point, point))
         self.label = str(point)
@@ -164,4 +149,4 @@ class _Vertex:
         return self.frac.shape[0]
 
 
-_KpointLabel = namedtuple('_KpointLabel', ['index', 'label'])
+_KpointLabel = namedtuple("_KpointLabel", ["index", "label"])

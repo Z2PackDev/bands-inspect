@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # (c) 2017-2019, ETH Zurich, Institut fuer Theoretische Physik
 # Author: Dominik Gresch <greschd@gmx.ch>
 """
@@ -17,6 +15,7 @@ def run_command():
     """
     Invoke the CLI with the given arguments.
     """
+
     def inner(args):
         return CliRunner().invoke(cli, args, catch_exceptions=False)
 
@@ -28,4 +27,4 @@ def band_sample(sample):
     """
     Fixture which returns a bands sample file.
     """
-    return sample('silicon_bands.hdf5')
+    return sample("silicon_bands.hdf5")
